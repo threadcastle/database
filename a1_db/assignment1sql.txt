@@ -1,0 +1,258 @@
+psql (14.4, server 14.5)
+Type "help" for help.
+
+postgres=# \i /Users/johneckholm/Desktop/boy1/sql.txt
+CREATE DATABASE
+psql (14.4, server 14.5)
+You are now connected to database "dirkassignment" as user "postgres".
+Problem 1
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+INSERT 0 19
+INSERT 0 7
+INSERT 0 19
+INSERT 0 13
+INSERT 0 5
+INSERT 0 38
+INSERT 0 67
+psql:/Users/johneckholm/Downloads/assignment1.sql:281: ERROR:  insert or update on table "employedby" violates foreign key constraint "employedby_sid_fkey"
+DETAIL:  Key (sid)=(1020) is not present in table "student".
+psql:/Users/johneckholm/Downloads/assignment1.sql:283: ERROR:  insert or update on table "hasfriend" violates foreign key constraint "hasfriend_sid1_fkey"
+DETAIL:  Key (sid1)=(1021) is not present in table "student".
+DELETE 0
+psql:/Users/johneckholm/Downloads/assignment1.sql:287: ERROR:  update or delete on table "major" violates foreign key constraint "studentmajor_major_fkey" on table "studentmajor"
+DETAIL:  Key (major)=(Chemistry) is still referenced from table "studentmajor".
+Problem 2
+  deptname   |    major    
+-------------+-------------
+ Biology     | Physics
+ CS          | CS
+ CS          | Chemistry
+ CS          | DataScience
+ CS          | Physics
+ DataScience | CS
+ DataScience | Chemistry
+ DataScience | DataScience
+ DataScience | Physics
+ Mathematics | CS
+ Mathematics | Chemistry
+ Mathematics | DataScience
+ Mathematics | Physics
+ Physics     | CS
+ Physics     | Chemistry
+ Physics     | DataScience
+ Physics     | Physics
+(17 rows)
+
+Problem 3
+ sid  | sid  
+------+------
+ 1003 | 1005
+ 1003 | 1006
+ 1003 | 1007
+ 1003 | 1012
+ 1003 | 1016
+ 1005 | 1003
+ 1005 | 1006
+ 1005 | 1007
+ 1005 | 1012
+ 1005 | 1016
+ 1006 | 1003
+ 1006 | 1005
+ 1006 | 1007
+ 1006 | 1012
+ 1006 | 1016
+ 1007 | 1003
+ 1007 | 1005
+ 1007 | 1006
+ 1007 | 1012
+ 1007 | 1016
+ 1008 | 1009
+ 1008 | 1019
+ 1009 | 1008
+ 1009 | 1019
+ 1010 | 1017
+ 1011 | 1018
+ 1012 | 1003
+ 1012 | 1005
+ 1012 | 1006
+ 1012 | 1007
+ 1012 | 1016
+ 1013 | 1015
+ 1015 | 1013
+ 1016 | 1003
+ 1016 | 1005
+ 1016 | 1006
+ 1016 | 1007
+ 1016 | 1012
+ 1017 | 1010
+ 1018 | 1011
+ 1019 | 1008
+ 1019 | 1009
+(42 rows)
+
+Problem 4
+    major    
+-------------
+ Chemistry
+ DataScience
+ Physics
+ CS
+(4 rows)
+
+Problem 13
+ sid  | sname  
+------+--------
+ 1012 | Eric
+ 1014 | Deepa
+ 1018 | Arif
+ 1015 | Chris
+ 1006 | Ryan
+ 1001 | Jean
+ 1008 | Emma
+ 1003 | Anna
+ 1010 | Linda
+ 1002 | Vidya
+ 1004 | Qin
+ 1016 | YinYue
+ 1009 | Hasan
+(13 rows)
+
+ sid  | sname  
+------+--------
+ 1001 | Jean
+ 1002 | Vidya
+ 1003 | Anna
+ 1004 | Qin
+ 1006 | Ryan
+ 1008 | Emma
+ 1009 | Hasan
+ 1010 | Linda
+ 1012 | Eric
+ 1014 | Deepa
+ 1015 | Chris
+ 1016 | YinYue
+ 1018 | Arif
+(13 rows)
+
+ sid  | sname  
+------+--------
+ 1001 | Jean
+ 1002 | Vidya
+ 1003 | Anna
+ 1004 | Qin
+ 1006 | Ryan
+ 1008 | Emma
+ 1009 | Hasan
+ 1010 | Linda
+ 1012 | Eric
+ 1014 | Deepa
+ 1015 | Chris
+ 1016 | YinYue
+ 1018 | Arif
+(13 rows)
+
+Problem 14
+ sid  
+------
+ 1005
+ 1012
+ 1013
+ 1014
+ 1016
+ 1017
+(6 rows)
+
+ sid  
+------
+ 1005
+ 1012
+ 1013
+ 1014
+ 1016
+ 1017
+(6 rows)
+
+ sid  
+------
+ 1005
+ 1012
+ 1013
+ 1014
+ 1016
+ 1017
+(6 rows)
+
+Problem 15
+ sid  | sid  
+------+------
+ 1003 | 1006
+ 1003 | 1016
+ 1003 | 1018
+ 1005 | 1002
+ 1005 | 1008
+ 1005 | 1015
+ 1005 | 1016
+ 1012 | 1002
+ 1012 | 1011
+ 1012 | 1015
+ 1017 | 1004
+(11 rows)
+
+ sid  | sid  
+------+------
+ 1003 | 1006
+ 1003 | 1016
+ 1003 | 1018
+ 1005 | 1002
+ 1005 | 1008
+ 1005 | 1015
+ 1005 | 1016
+ 1012 | 1002
+ 1012 | 1011
+ 1012 | 1015
+ 1017 | 1004
+(11 rows)
+
+ sid  | sid  
+------+------
+ 1003 | 1006
+ 1003 | 1016
+ 1003 | 1018
+ 1005 | 1002
+ 1005 | 1008
+ 1005 | 1015
+ 1005 | 1016
+ 1012 | 1002
+ 1012 | 1011
+ 1012 | 1015
+ 1017 | 1004
+(11 rows)
+
+Problem 22.b
+ exists 
+--------
+ t
+(1 row)
+
+Problem 23.b
+ ?column? 
+----------
+ f
+(1 row)
+
+Problem 24.b
+ ?column? 
+----------
+ f
+(1 row)
+
+psql:/Users/johneckholm/Desktop/boy1/sql.txt:235: ERROR:  syntax error at or near "psql"
+LINE 1: psql (14.4, server 14.5)
+        ^
+dirkassignment=# 

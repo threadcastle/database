@@ -1,0 +1,365 @@
+psql (14.4, server 14.5)
+Type "help" for help.
+
+postgres=# \i /Users/johneckholm/Downloads/assignment2.sql
+CREATE DATABASE
+psql (14.4, server 14.5)
+You are now connected to database "dvgfall2022assignment2" as user "postgres".
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+CREATE TABLE
+INSERT 0 20
+INSERT 0 13
+INSERT 0 148
+INSERT 0 6
+INSERT 0 38
+INSERT 0 15
+CREATE TABLE
+INSERT 0 14
+Problem 3
+Problem 3.c
+ bno  |    title    
+------+-------------
+ 2001 | Databases
+ 2002 | AI
+ 2003 | DataScience
+ 2004 | Databases
+ 2005 | Programming
+ 2006 | Complexity
+ 2007 | AI
+ 2008 | Algorithms
+ 2009 | Networks
+ 2010 | AI
+ 2011 | Logic
+(11 rows)
+
+Problem 3.d
+ bno  |    title    
+------+-------------
+ 2001 | Databases
+ 2002 | AI
+ 2003 | DataScience
+ 2004 | Databases
+ 2005 | Programming
+ 2006 | Complexity
+ 2007 | AI
+ 2008 | Algorithms
+ 2009 | Networks
+ 2010 | AI
+ 2011 | Logic
+(11 rows)
+
+Problem 3.e
+ bno  |    title    
+------+-------------
+ 2001 | Databases
+ 2002 | AI
+ 2003 | DataScience
+ 2004 | Databases
+ 2005 | Programming
+ 2006 | Complexity
+ 2007 | AI
+ 2008 | Algorithms
+ 2009 | Networks
+ 2010 | AI
+ 2011 | Logic
+(11 rows)
+
+Problem 3.f
+Problem 4
+Problem 4.b
+ sid  | bno  
+------+------
+ 1001 | 2001
+ 1001 | 2002
+ 1001 | 2007
+ 1002 | 2001
+ 1002 | 2002
+ 1002 | 2007
+ 1006 | 2001
+ 1006 | 2002
+ 1006 | 2003
+ 1006 | 2004
+ 1006 | 2007
+ 1006 | 2011
+ 1011 | 2001
+ 1011 | 2002
+ 1011 | 2003
+ 1011 | 2004
+ 1011 | 2007
+ 1011 | 2011
+ 1012 | 2001
+ 1012 | 2002
+ 1012 | 2007
+ 1015 | 2001
+ 1015 | 2002
+ 1015 | 2007
+(24 rows)
+
+Problem 4.c
+ sid  | bno  
+------+------
+ 1001 | 2001
+ 1001 | 2002
+ 1001 | 2007
+ 1002 | 2001
+ 1002 | 2002
+ 1002 | 2007
+ 1006 | 2001
+ 1006 | 2002
+ 1006 | 2003
+ 1006 | 2004
+ 1006 | 2007
+ 1006 | 2011
+ 1011 | 2001
+ 1011 | 2002
+ 1011 | 2003
+ 1011 | 2004
+ 1011 | 2007
+ 1011 | 2011
+ 1012 | 2001
+ 1012 | 2002
+ 1012 | 2007
+ 1015 | 2001
+ 1015 | 2002
+ 1015 | 2007
+(24 rows)
+
+Problem 4.d
+ sid  | bno  
+------+------
+ 1001 | 2001
+ 1001 | 2002
+ 1001 | 2007
+ 1002 | 2001
+ 1002 | 2002
+ 1002 | 2007
+ 1006 | 2001
+ 1006 | 2002
+ 1006 | 2003
+ 1006 | 2004
+ 1006 | 2007
+ 1006 | 2011
+ 1011 | 2001
+ 1011 | 2002
+ 1011 | 2003
+ 1011 | 2004
+ 1011 | 2007
+ 1011 | 2011
+ 1012 | 2001
+ 1012 | 2002
+ 1012 | 2007
+ 1015 | 2001
+ 1015 | 2002
+ 1015 | 2007
+(24 rows)
+
+Problem 4.e
+Problem 5
+Problem 5.b
+ sid  |  sname   
+------+----------
+ 1006 | Ryan
+ 1007 | Danielle
+ 1008 | Emma
+ 1009 | Hasan
+ 1010 | Linda
+ 1016 | YinYue
+ 1018 | Arif
+ 1019 | John
+(8 rows)
+
+Problem 5.c
+ sid  |  sname   
+------+----------
+ 1006 | Ryan
+ 1007 | Danielle
+ 1008 | Emma
+ 1009 | Hasan
+ 1010 | Linda
+ 1016 | YinYue
+ 1018 | Arif
+ 1019 | John
+(8 rows)
+
+Problem 5.d
+ sid  |  sname   
+------+----------
+ 1006 | Ryan
+ 1007 | Danielle
+ 1008 | Emma
+ 1009 | Hasan
+ 1010 | Linda
+ 1016 | YinYue
+ 1018 | Arif
+ 1019 | John
+(8 rows)
+
+Problem 5.e
+Problem 10.b
+ bno  |  title  
+------+---------
+ 2013 | Physics
+ 2012 | Physics
+(2 rows)
+
+Problem 11.b
+    major    | bno  
+-------------+------
+ CS          | 2001
+ CS          | 2002
+ CS          | 2007
+ Chemistry   | 2013
+ DataScience | 2001
+ DataScience | 2002
+ DataScience | 2007
+ Math        | 2001
+ Math        | 2002
+ Math        | 2007
+ Physics     | 2001
+ Physics     | 2002
+ Physics     | 2007
+(13 rows)
+
+Problem 12.b
+ bno  |    title    
+------+-------------
+ 2001 | Databases
+ 2002 | AI
+ 2003 | DataScience
+ 2004 | Databases
+ 2005 | Programming
+ 2006 | Complexity
+ 2007 | AI
+ 2008 | Algorithms
+ 2009 | Networks
+ 2010 | AI
+ 2011 | Logic
+(11 rows)
+
+Problem 13.b
+Problem 14.b
+Problem 27
+CREATE FUNCTION
+ bno | title | price 
+-----+-------+-------
+(0 rows)
+
+ bno  |   title   | price 
+------+-----------+-------
+ 2001 | Databases |    20
+ 2002 | AI        |    20
+ 2007 | AI        |    20
+ 2011 | Logic     |    25
+(4 rows)
+
+ bno  |    title    | price 
+------+-------------+-------
+ 2001 | Databases   |    20
+ 2002 | AI          |    20
+ 2005 | Programming |    30
+ 2006 | Complexity  |    30
+ 2007 | AI          |    20
+ 2008 | Algorithms  |    40
+ 2010 | AI          |    30
+ 2011 | Logic       |    25
+(8 rows)
+
+ bno  |    title    | price 
+------+-------------+-------
+ 2001 | Databases   |    20
+ 2002 | AI          |    20
+ 2003 | DataScience |    25
+ 2007 | AI          |    20
+(4 rows)
+
+Problem 28
+CREATE FUNCTION
+ bno  |    title    | price 
+------+-------------+-------
+ 2001 | Databases   |    20
+ 2003 | DataScience |    25
+ 2004 | Databases   |    25
+ 2005 | Programming |    30
+ 2006 | Complexity  |    30
+ 2007 | AI          |    20
+ 2008 | Algorithms  |    40
+(7 rows)
+
+ bno  |    title    | price 
+------+-------------+-------
+ 2001 | Databases   |    20
+ 2003 | DataScience |    25
+ 2004 | Databases   |    25
+ 2005 | Programming |    30
+ 2006 | Complexity  |    30
+ 2007 | AI          |    20
+ 2008 | Algorithms  |    40
+(7 rows)
+
+ bno  |    title    | price 
+------+-------------+-------
+ 2001 | Databases   |    20
+ 2003 | DataScience |    25
+ 2004 | Databases   |    25
+ 2005 | Programming |    30
+ 2006 | Complexity  |    30
+ 2007 | AI          |    20
+ 2008 | Algorithms  |    40
+(7 rows)
+
+ bno  |    title    | price 
+------+-------------+-------
+ 2001 | Databases   |    20
+ 2003 | DataScience |    25
+ 2004 | Databases   |    25
+ 2005 | Programming |    30
+ 2006 | Complexity  |    30
+ 2007 | AI          |    20
+ 2008 | Algorithms  |    40
+(7 rows)
+
+ bno  |  title  | price 
+------+---------+-------
+ 2013 | Physics |    30
+(1 row)
+
+ bno | title | price 
+-----+-------+-------
+(0 rows)
+
+Problem 29
+CREATE FUNCTION
+ bno  |    title    | price 
+------+-------------+-------
+ 2001 | Databases   |    20
+ 2002 | AI          |    20
+ 2005 | Programming |    30
+ 2006 | Complexity  |    30
+ 2007 | AI          |    20
+ 2010 | AI          |    30
+(6 rows)
+
+ bno  |   title    | price 
+------+------------+-------
+ 2001 | Databases  |    20
+ 2002 | AI         |    20
+ 2007 | AI         |    20
+ 2008 | Algorithms |    40
+ 2010 | AI         |    30
+ 2011 | Logic      |    25
+(6 rows)
+
+ bno  |   title   | price 
+------+-----------+-------
+ 2001 | Databases |    20
+ 2002 | AI        |    20
+ 2007 | AI        |    20
+ 2010 | AI        |    30
+(4 rows)
+
+Problem 30
+dvgfall2022assignment2=# 
