@@ -1,0 +1,819 @@
+TEAM 37
+Jia Wang, Xiao Wang, Yiyin Jiang, Yu Mo
+CREATE TABLE
+Problem 1.a
+CREATE VIEW
+INSERT 0 2
+INSERT 0 2
+Problem 1.b
+ x
+---
+ 1
+ 2
+(2 rows)
+
+
+Problem 1.c
+INSERT 0 3
+ x
+---
+ 3
+ 4
+(2 rows)
+
+
+DROP VIEW
+Problem 2
+DROP TABLE
+CREATE TABLE
+ isaFunction
+-------------
+ t
+(1 row)
+
+
+Problem 2.a
+ isaFunction
+-------------
+ t
+(1 row)
+
+
+Problem 2.b
+ isaFunction
+-------------
+ t
+(1 row)
+
+
+Problem 2.c
+INSERT 0 2
+ isaFunction
+-------------
+ t
+(1 row)
+
+
+Problem 2.d
+INSERT 0 1
+ isaFunction
+-------------
+ f
+(1 row)
+
+
+DROP TABLE
+Problem 6
+psql:D:/22Fall/B561/assignment/b561/hw3/submit.sql:396: ERROR:  character with byte sequence 0x9d in encoding "WIN1252" has no equivalent in encoding "UTF8"
+Problem 6a.
+ pid  |  pname
+------+----------
+ 1016 | YinYue
+ 1007 | Danielle
+ 1005 | Megan
+ 1003 | Anna
+ 1006 | Ryan
+ 1012 | Eric
+(6 rows)
+
+
+ pid  |  pname
+------+----------
+ 1016 | YinYue
+ 1007 | Danielle
+ 1005 | Megan
+ 1003 | Anna
+ 1006 | Ryan
+ 1012 | Eric
+(6 rows)
+
+
+ pid  |  pname
+------+----------
+ 1016 | YinYue
+ 1007 | Danielle
+ 1005 | Megan
+ 1003 | Anna
+ 1006 | Ryan
+ 1012 | Eric
+(6 rows)
+
+
+ pid  |  pname
+------+----------
+ 1016 | YinYue
+ 1007 | Danielle
+ 1005 | Megan
+ 1003 | Anna
+ 1006 | Ryan
+ 1012 | Eric
+(6 rows)
+
+
+ pid  |  pname
+------+----------
+ 1016 | YinYue
+ 1007 | Danielle
+ 1005 | Megan
+ 1003 | Anna
+ 1006 | Ryan
+ 1012 | Eric
+(6 rows)
+
+
+Problem 6b.
+ pid  |  pname
+------+----------
+ 1012 | Eric
+ 1016 | YinYue
+ 1005 | Megan
+ 1007 | Danielle
+ 1006 | Ryan
+ 1003 | Anna
+(6 rows)
+
+
+ pid  |  pname
+------+----------
+ 1012 | Eric
+ 1016 | YinYue
+ 1005 | Megan
+ 1007 | Danielle
+ 1006 | Ryan
+ 1003 | Anna
+(6 rows)
+
+
+ pid  |  pname
+------+----------
+ 1003 | Anna
+ 1005 | Megan
+ 1006 | Ryan
+ 1007 | Danielle
+ 1012 | Eric
+ 1016 | YinYue
+(6 rows)
+
+
+Problem 7a.
+   cname   | pid
+-----------+------
+ Apple     | 1001
+ Amazon    | 1003
+ Amazon    | 1004
+ Amazon    | 1006
+ Amazon    | 1008
+ Amazon    | 1010
+ Amazon    | 1015
+ Amazon    | 1016
+ Google    | 1011
+ Netflix   | 1007
+ Netflix   | 1017
+ Microsoft | 1019
+ Yahoo     | 1013
+(13 rows)
+
+
+   cname   | pid
+-----------+------
+ Amazon    | 1003
+ Amazon    | 1004
+ Amazon    | 1006
+ Amazon    | 1008
+ Amazon    | 1010
+ Amazon    | 1015
+ Amazon    | 1016
+ Apple     | 1001
+ Google    | 1011
+ Microsoft | 1019
+ Netflix   | 1007
+ Netflix   | 1017
+ Yahoo     | 1013
+(13 rows)
+
+
+  ccname   | ppid
+-----------+------
+ Amazon    | 1003
+ Amazon    | 1004
+ Amazon    | 1006
+ Amazon    | 1008
+ Amazon    | 1010
+ Amazon    | 1015
+ Amazon    | 1016
+ Apple     | 1001
+ Google    | 1011
+ Microsoft | 1019
+ Netflix   | 1007
+ Netflix   | 1017
+ Yahoo     | 1013
+(13 rows)
+
+
+  ccname   | ppid
+-----------+------
+ Amazon    | 1003
+ Amazon    | 1004
+ Amazon    | 1006
+ Amazon    | 1008
+ Amazon    | 1010
+ Amazon    | 1015
+ Amazon    | 1016
+ Apple     | 1001
+ Google    | 1011
+ Microsoft | 1019
+ Netflix   | 1007
+ Netflix   | 1017
+ Yahoo     | 1013
+(13 rows)
+
+
+  ccname   | ppid
+-----------+------
+ Amazon    | 1003
+ Amazon    | 1004
+ Amazon    | 1006
+ Amazon    | 1008
+ Amazon    | 1010
+ Amazon    | 1015
+ Amazon    | 1016
+ Apple     | 1001
+ Google    | 1011
+ Microsoft | 1019
+ Netflix   | 1007
+ Netflix   | 1017
+ Yahoo     | 1013
+(13 rows)
+
+
+  ccname   | ppid
+-----------+------
+ Amazon    | 1003
+ Amazon    | 1004
+ Amazon    | 1006
+ Amazon    | 1008
+ Amazon    | 1010
+ Amazon    | 1015
+ Amazon    | 1016
+ Apple     | 1001
+ Google    | 1011
+ Microsoft | 1019
+ Netflix   | 1007
+ Netflix   | 1017
+ Yahoo     | 1013
+(13 rows)
+
+
+Problem 7b.
+  ccname   | ppid
+-----------+------
+ Amazon    | 1003
+ Amazon    | 1004
+ Amazon    | 1006
+ Amazon    | 1008
+ Amazon    | 1010
+ Amazon    | 1015
+ Amazon    | 1016
+ Apple     | 1001
+ Google    | 1011
+ Microsoft | 1019
+ Netflix   | 1007
+ Netflix   | 1017
+ Yahoo     | 1013
+(13 rows)
+
+
+  ccname   | ppid
+-----------+------
+ Amazon    | 1003
+ Amazon    | 1004
+ Amazon    | 1006
+ Amazon    | 1008
+ Amazon    | 1010
+ Amazon    | 1015
+ Amazon    | 1016
+ Apple     | 1001
+ Google    | 1011
+ Microsoft | 1019
+ Netflix   | 1007
+ Netflix   | 1017
+ Yahoo     | 1013
+(13 rows)
+
+
+  ccname   | ppid
+-----------+------
+ Amazon    | 1003
+ Amazon    | 1004
+ Amazon    | 1006
+ Amazon    | 1008
+ Amazon    | 1010
+ Amazon    | 1015
+ Amazon    | 1016
+ Apple     | 1001
+ Google    | 1011
+ Microsoft | 1019
+ Netflix   | 1007
+ Netflix   | 1017
+ Yahoo     | 1013
+(13 rows)
+
+
+Problem 8a.
+ pid
+------
+ 1011
+(1 row)
+
+
+ pid
+------
+ 1011
+(1 row)
+
+
+ pid
+------
+ 1011
+(1 row)
+
+
+ pid
+------
+ 1011
+(1 row)
+
+
+ pid
+------
+ 1011
+(1 row)
+
+
+Problem 8b.
+ pid
+------
+ 1011
+(1 row)
+
+
+ pid
+------
+ 1011
+(1 row)
+
+
+ pid
+------
+ 1011
+(1 row)
+
+
+Problem 9a.
+   cname
+-----------
+ Microsoft
+ Google
+(2 rows)
+
+
+   cname
+-----------
+ Google
+ Microsoft
+(2 rows)
+
+
+   cname
+-----------
+ Google
+ Microsoft
+(2 rows)
+
+
+   cname
+-----------
+ Google
+ Microsoft
+(2 rows)
+
+
+   cname
+-----------
+ Google
+ Microsoft
+(2 rows)
+
+
+   cname
+-----------
+ Google
+ Microsoft
+(2 rows)
+
+
+Problem 9b.
+   cname
+-----------
+ Microsoft
+ Google
+(2 rows)
+
+
+   cname
+-----------
+ Microsoft
+ Google
+(2 rows)
+
+
+   cname
+-----------
+ Microsoft
+ Google
+(2 rows)
+
+
+Problem 10a
+ pid  | exists
+------+--------
+ 1001 | t
+ 1002 | f
+ 1003 | t
+ 1004 | f
+ 1005 | f
+ 1006 | f
+ 1007 | f
+ 1008 | f
+ 1009 | f
+ 1010 | f
+ 1011 | f
+ 1012 | f
+ 1013 | f
+ 1014 | f
+ 1015 | f
+ 1016 | f
+ 1017 | f
+ 1018 | f
+ 1019 | f
+(19 rows)
+
+
+ pid  | bool
+------+------
+ 1018 | f
+ 1016 | f
+ 1015 | f
+ 1001 | t
+ 1009 | f
+ 1008 | f
+ 1004 | f
+ 1007 | f
+ 1010 | f
+ 1014 | f
+ 1006 | f
+ 1019 | f
+ 1002 | f
+ 1017 | f
+ 1011 | f
+ 1012 | f
+ 1013 | f
+ 1005 | f
+ 1003 | t
+(19 rows)
+
+
+ pid  | bool
+------+------
+ 1001 | t
+ 1014 | f
+ 1005 | f
+ 1018 | f
+ 1009 | f
+ 1008 | f
+ 1007 | f
+ 1010 | f
+ 1006 | f
+ 1003 | t
+ 1015 | f
+ 1004 | f
+ 1002 | f
+ 1016 | f
+ 1019 | f
+ 1017 | f
+ 1011 | f
+ 1012 | f
+ 1013 | f
+(19 rows)
+
+
+ pid  | bool
+------+------
+ 1001 | t
+ 1014 | f
+ 1005 | f
+ 1018 | f
+ 1009 | f
+ 1008 | f
+ 1007 | f
+ 1010 | f
+ 1006 | f
+ 1003 | t
+ 1015 | f
+ 1004 | f
+ 1002 | f
+ 1016 | f
+ 1019 | f
+ 1017 | f
+ 1011 | f
+ 1012 | f
+ 1013 | f
+(19 rows)
+
+
+Problem 10b
+ pid  | bool
+------+------
+ 1015 | f
+ 1001 | t
+ 1004 | f
+ 1014 | f
+ 1002 | f
+ 1005 | f
+ 1018 | f
+ 1016 | f
+ 1009 | f
+ 1008 | f
+ 1007 | f
+ 1010 | f
+ 1006 | f
+ 1019 | f
+ 1017 | f
+ 1011 | f
+ 1012 | f
+ 1013 | f
+ 1003 | t
+(19 rows)
+
+
+ pid  | bool
+------+------
+ 1015 | f
+ 1001 | t
+ 1004 | f
+ 1014 | f
+ 1002 | f
+ 1005 | f
+ 1018 | f
+ 1016 | f
+ 1009 | f
+ 1008 | f
+ 1007 | f
+ 1010 | f
+ 1006 | f
+ 1019 | f
+ 1017 | f
+ 1011 | f
+ 1012 | f
+ 1013 | f
+ 1003 | t
+(19 rows)
+
+
+ pid  | bool
+------+------
+ 1015 | f
+ 1001 | t
+ 1004 | f
+ 1014 | f
+ 1002 | f
+ 1005 | f
+ 1018 | f
+ 1016 | f
+ 1009 | f
+ 1008 | f
+ 1007 | f
+ 1010 | f
+ 1006 | f
+ 1019 | f
+ 1017 | f
+ 1011 | f
+ 1012 | f
+ 1013 | f
+ 1003 | t
+(19 rows)
+
+
+Problem 11
+     c     |         a          | l | u
+-----------+--------------------+---+---
+ Netflix   | 55000.000000000000 | 1 | 1
+ Microsoft | 50000.000000000000 | 0 | 1
+ Amazon    | 55714.285714285714 | 5 | 2
+ Yahoo     | 55000.000000000000 | 0 | 1
+(4 rows)
+
+
+Problem 12
+    skill
+-------------
+ AI
+ Programming
+(2 rows)
+
+
+Problem 13
+ pid  | pname
+------+-------
+ 1005 | Megan
+(1 row)
+
+
+Problem 14
+psql:D:/22Fall/B561/assignment/b561/hw3/submit.sql:1513: ERROR:  function "numberofpid" already exists with same argument types
+psql:D:/22Fall/B561/assignment/b561/hw3/submit.sql:1521: ERROR:  function "avgofsalary" already exists with same argument types
+ cname
+--------
+ Amazon
+(1 row)
+
+
+Problem 15
+ pid1
+------
+ 1016
+(1 row)
+
+
+Problem 16
+ pid  | pid
+------+------
+ 1001 | 1003
+ 1001 | 1008
+ 1001 | 1009
+ 1001 | 1010
+ 1001 | 1019
+ 1002 | 1003
+ 1002 | 1008
+ 1002 | 1009
+ 1002 | 1010
+ 1002 | 1019
+ 1003 | 1001
+ 1003 | 1002
+ 1003 | 1004
+ 1003 | 1005
+ 1003 | 1006
+ 1003 | 1007
+ 1003 | 1008
+ 1003 | 1009
+ 1003 | 1010
+ 1003 | 1011
+ 1003 | 1012
+ 1003 | 1013
+ 1003 | 1014
+ 1003 | 1015
+ 1003 | 1016
+ 1003 | 1017
+ 1003 | 1018
+ 1003 | 1019
+ 1004 | 1003
+ 1004 | 1008
+ 1004 | 1009
+ 1004 | 1010
+ 1004 | 1019
+ 1005 | 1003
+ 1005 | 1008
+ 1006 | 1003
+ 1006 | 1008
+ 1006 | 1010
+ 1006 | 1018
+ 1006 | 1019
+ 1007 | 1003
+ 1007 | 1008
+ 1007 | 1010
+ 1007 | 1018
+ 1007 | 1019
+ 1008 | 1001
+ 1008 | 1002
+ 1008 | 1003
+ 1008 | 1004
+ 1008 | 1005
+ 1008 | 1006
+ 1008 | 1007
+ 1008 | 1009
+ 1008 | 1010
+ 1008 | 1011
+ 1008 | 1012
+ 1008 | 1013
+ 1008 | 1014
+ 1008 | 1015
+ 1008 | 1016
+ 1008 | 1017
+ 1008 | 1018
+ 1008 | 1019
+ 1009 | 1001
+ 1009 | 1002
+ 1009 | 1003
+ 1009 | 1004
+ 1009 | 1008
+ 1009 | 1015
+ 1009 | 1018
+ 1010 | 1001
+ 1010 | 1002
+ 1010 | 1003
+ 1010 | 1004
+ 1010 | 1006
+ 1010 | 1007
+ 1010 | 1008
+ 1010 | 1012
+ 1010 | 1015
+ 1010 | 1016
+ 1010 | 1018
+ 1011 | 1003
+ 1011 | 1008
+ 1012 | 1003
+ 1012 | 1008
+ 1012 | 1010
+ 1012 | 1019
+ 1013 | 1003
+ 1013 | 1008
+ 1013 | 1018
+ 1014 | 1003
+ 1014 | 1008
+ 1015 | 1003
+ 1015 | 1008
+ 1015 | 1009
+ 1015 | 1010
+ 1015 | 1019
+ 1016 | 1003
+ 1016 | 1008
+ 1016 | 1010
+ 1016 | 1017
+ 1016 | 1019
+ 1017 | 1003
+ 1017 | 1008
+ 1017 | 1016
+ 1017 | 1018
+ 1018 | 1003
+ 1018 | 1006
+ 1018 | 1007
+ 1018 | 1008
+ 1018 | 1009
+ 1018 | 1010
+ 1018 | 1013
+ 1018 | 1017
+ 1018 | 1019
+ 1019 | 1001
+ 1019 | 1002
+ 1019 | 1003
+ 1019 | 1004
+ 1019 | 1006
+ 1019 | 1007
+ 1019 | 1008
+ 1019 | 1012
+ 1019 | 1015
+ 1019 | 1016
+ 1019 | 1018
+(126 rows)
+
+
+Problem 17
+psql:D:/22Fall/B561/assignment/b561/hw3/submit.sql:1591: ERROR:  function "nummskills" already exists with same argument types
+ pid  | pid
+------+------
+ 1008 | 1011
+ 1003 | 1011
+(2 rows)
+
+
+Problem 18
+   cname   |  type  | ctemployees
+-----------+--------+-------------
+ ACM       | high   |           0
+ ACM       | low    |           0
+ ACM       | medium |           0
+ Amazon    | high   |           0
+ Amazon    | low    |           1
+ Amazon    | medium |           6
+ Apple     | high   |           1
+ Apple     | low    |           4
+ Apple     | medium |           1
+ Google    | high   |           1
+ Google    | low    |           0
+ Google    | medium |           1
+ IBM       | high   |           0
+ IBM       | low    |           0
+ IBM       | medium |           0
+ Microsoft | high   |           0
+ Microsoft | low    |           1
+ Microsoft | medium |           0
+ Netflix   | high   |           0
+ Netflix   | low    |           1
+ Netflix   | medium |           1
+ Yahoo     | high   |           0
+ Yahoo     | low    |           0
+ Yahoo     | medium |           1
+(24 rows)
+
+
+You are now connected to database "postgres" as user "postgres".
