@@ -1,0 +1,1144 @@
+\documentclass[10pt]{article}
+
+\usepackage[USenglish]{babel}
+\usepackage{enumitem}
+\usepackage{amssymb, amsmath}
+
+\usepackage[normalem]{ulem}
+
+
+
+\newtheorem{example}{Example}
+\newtheorem{remark}{Remark}
+
+\usepackage{alltt,xcolor}
+\let\oldalltt\alltt
+\renewenvironment{alltt}{\vspace{-0.75\baselineskip}\begin{oldalltt}}{\end{oldalltt}\vspace{+0.50\baselineskip}}
+
+\usepackage{tikz}
+\usepackage{graphicx}
+
+
+\newcommand{\red}[1]{\textcolor{red}#1}
+\newcommand{\green}[1]{{\color{green}#1}}
+\newcommand{\blue}[1]{{\color{blue}#1}}
+\newcommand{\purple}[1]{{\color{purple}#1}}
+\newcommand{\orange}[1]{{\color{orange}#1}}
+
+\newcommand{\hashjoin}[1]{\begin{array}{c} \mathtt{hashJoin} \\ \bowtie\\ {#1}\\ \end{array}}
+\newcommand{\mergejoin}[1]{\begin{array}{c} \mathtt{mergeJoin} \\ \bowtie\\ {#1}\\ \end{array}}
+\newcommand{\indexjoin}[1]{\begin{array}{c} \mathtt{indexJoin} \\ \bowtie\\ {#1}\\ \end{array}}
+\newcommand{\nestedjoin}[1]{\begin{array}{c} \mathtt{nestedLoopJoin} \\ \bowtie\\ {#1}\\ \end{array}}
+
+\newcommand{\sortprojection}[1]{\begin{array}{c} \mathtt{sortProjection} \\ \pi_{#1}\ \end{array}}
+\newcommand{\hashprojection}[1]{\begin{array}{c} \mathtt{hashProjection} \\ \pi_{#1}\ \end{array}}
+
+\newcommand{\scan}[1]{\begin{array}{c} \mathtt{scan} \\ {#1}\ \end{array}}
+
+\newcommand{\filter}[1]{\begin{array}{c} \mathtt{filterSselection}\\ \sigma_{#1}\ \end{array}}
+
+\newcommand{\filterscan}[2]{\begin{array}{c} \mathtt{filterScan}\\ \sigma_{#1}(#2)\ \end{array}}
+\newcommand{\sortfilterscan}[2]{\begin{array}{c}\mathtt{sort} \mathtt{filterScan}\\ \sigma_{#1}(#2)\ \end{array}}
+\newcommand{\hashfilterscan}[2]{\begin{array}{c}\mathtt{hash} \mathtt{hashfilterScan}\\ \sigma_{#1}(#2)\ \end{array}}
+
+\newcommand{\alltext}[2]{\begin{alltt}\textcolor{#1}{#2}\end{alltt}}
+
+\begin{document}
+
+\title{B561 Assignment 7\\
+\ \\
+Testing Effectiveness of Query Optimization and Query Planning; \\
+Object-Relational Database Programming \\
+Key-Value Databases and Graph Databases }
+%\author{Dirk Van Gucht}
+\date{}
+\maketitle
+
+This assignment focuses on problems related to Lectures Lectures 18 through 23:
+\begin{itemize}
+%\item Lecture 8: Translating SQL queries to equivalent relational algebra expressions
+%\item Lecture 9: Query optimization
+%\item Lecture 12: Object relational databases and queries
+\item Lecture 18:  Algorithms for RA operations
+\item Lecture 19:  Query processing and query plans
+\item Lecture 20:  Object-relational database programming
+\item Lecture 21:  Key-value stores.  NoSQL in MapReduce style
+\item Lecture 22:  Key-value stores;  NoSQL in Spark style
+\item Lecture 23:  Graph databases
+\end{itemize}
+Other lectures that a relevant for this assignment are Lectures 8, 13, and 14:
+\begin{itemize}
+\item Lecture 8:  Translating Pure SQL queries into RA expressions
+\item Lecture 9:  Query optimization
+\item Lecture 12:  Object-Relational databases and queries
+\end{itemize}
+\vfill
+
+This assignment has problems that are required to be solved.  Others, identified as such, are practice problems that you should attempt since they serve as preparation for the final exam.
+
+Turn in a single {\tt assignment7.sql} file that contains the PostgreSQL code of the solutions for the problem that require such code.   
+Also turn in a {\tt assignment7.txt} file that contains all the output associated with the problems in this assignment.
+For all the other problems, submit a single {\tt assignment7.pdf} file with your solutions.
+
+Do not include solutions for the practice problems in the {\tt assignment7.sql} and {\tt assignment7.pdf} files.
+
+
+\newpage
+\section{Analysis of Queries Using Query Plans}
+
+The problems in this section focus on the study of certain important queries using query plans and their associated time complexities.
+
+
+\begin{enumerate}
+\item \label{NO} 
+Consider the relation schema $\mathtt{R(a\ int,b\ int)}$ and the 
+`{\tt NO}' generalized quantifier query:
+\[\{(r_1.\mathtt{a},r_2.\mathtt{a}) \mid \mathtt{R}(r_1)\land \mathtt{R}(r_2) \land \mathtt{R}(r_1.\mathtt{a}) \cap \mathtt{R}(r_2.\mathtt{a}) = \emptyset\}\]
+where
+\[
+\begin{array}{rcl}
+\mathtt{R}(r_1.\mathtt{a}) & = & \{r.\mathtt{b} \mid \mathtt{R}(r) \land r.\mathtt{a} = r_1.\mathtt{a}\} \\
+\mathtt{R}(r_2.\mathtt{a}) & = & \{r.\mathtt{b} \mid \mathtt{R}(r) \land r.\mathtt{a} = r_2.\mathtt{a}\}. \\
+\end{array}
+\]
+Consider Lecture 19 `\emph{Query Processing and Query Plans}'
+and in particular the analysis, using query plans, for the `{\tt SOME}' generalized quantifier.
+In analogy with that analysis, do an analysis for the `{\tt NO}' generalized quantifier.\footnote{Note that in this problem, the relations $\mathtt{P}$, $\mathtt{Q}$, $\mathtt{R}$ and $\mathtt{S}$, as they
+appear in the Lecture 19, have been consolidated into the relation $\mathtt{R}$.} 
+
+%You can assume that the domain of the attributes {\tt a} and {\tt b} is {\tt integer}.
+
+\item \label{notonly} 
+Consider the relation schema $\mathtt{R(a,b)}$ and the 
+`{\tt NOT ONLY}' generalized quantifier query:
+\[\{(r_1.\mathtt{a},r_2.\mathtt{a}) \mid \mathtt{R}(r_1)\land \mathtt{R}(r_2) \land \mathtt{R}(r_1.\mathtt{a}) \not\subseteq \mathtt{R}(r_2.\mathtt{a})\}\]
+where
+\[
+\begin{array}{rcl}
+\mathtt{R}(r_1.\mathtt{a}) & = & \{r.\mathtt{b} \mid \mathtt{R}(r) \land r.\mathtt{a} = r_1.\mathtt{a}\} \\
+\mathtt{R}(r_2.\mathtt{a}) & = & \{r.\mathtt{b} \mid \mathtt{R}(r) \land r.\mathtt{a} = r_2.\mathtt{a}\}. \\
+\end{array}
+\]
+
+Consider Lecture 19 `\emph{Query Processing and Query Plans}'
+and in particular the analysis, using query plans, for the `{\tt SOME}' generalized quantifier.
+In analogy with that analysis, do an analysis for the `{\tt NOT ONLY}' generalized quantifier.
+
+%You can assume that the domain of the attributes {\tt a} and {\tt b} is {\tt integer}.
+
+\end{enumerate}
+
+\newpage
+\section{Experiments to Test the Effectiveness of Query Optimization}
+In the following problems, you will need to conduct experiments in PostgreSQL to gain insight into
+whether or not query optimization is effective.  
+In other words, can it be determined experimentally 
+if optimizing an SQL or an RA expression improves the time (and space) complexity of query evaluation?
+Additionally, can it be determined if the PostgreSQL query optimizer attains the same (i.e., better or worse)
+optimization as optimization by hand.
+(Recall that in SQL you can specify each RA expression as an RA SQL query.   This implies that each of the
+optimization rules for RA can be applied directly to queries formulated in RA SQL.)
+
+To solve the problems, you will need to generate artificial data
+of increasing size and measure the time of evaluating non-optimized and
+optimized queries.    The size of this data can be in the ten or hundreds of thousands of tuples.
+This is necessary since, on very small data, it is not possible to gain
+sufficient insights into the quality (or lack of quality) of optimization.
+You can use the data generation functions that were developed in Assignment 6.
+Additionally, you are advised to examine the query plans generated by PostgreSQL.
+
+For the problems in this section, we will use three relations:\footnote{A typical case could be where {\tt P} is {\tt Person},
+{\tt R} is {\tt Knows}, and {\tt Q} is the set of persons with the Databases skill.   Another case could where {\tt P} is the set of persons who
+work for Amazon, {\tt R} is {\tt personSkill} and {\tt Q} is the set of skills of persons who live in Bloomington. Etc.}
+\begin{center}
+\begin{tabular}{ll}
+{\tt P(a int)} \\
+{\tt R(a int, b int)} \\
+{\tt Q(b int)}
+\end{tabular}
+\end{center}
+
+To generate {\tt P} or {\tt Q}, you should use the function {\tt SetOfIntegers}
+which generate a set of up to $n$ randomly selected integers in the range $[l,u]$:
+{\footnotesize
+\begin{alltt}
+\textcolor{blue}{
+create or replace function SetOfIntegers(n int, l int, u int)
+     returns table (x int) as
+     $$  
+        select floor(random() * (u-l+1) + l)::int as x 
+        from   generate_series(1,n) 
+        group by (x) order by 1;
+     $$ language sql;
+}
+\end{alltt}
+}
+To generate {\tt R}, you should use the function {\tt BinaryRelationOverIntegers} which generates up to $n$
+randomly selected pairs with first components in the range $[l_1,u_1]$ and second components in the range $[l_2,u_2]$:
+{\footnotesize
+\begin{alltt}
+\textcolor{blue}{
+create or replace function BinaryRelationOverIntegers(n int, l_1 int, u_1 int, l_2 int, u_2 int)
+    returns table (x int, y int) as
+    $$   
+        select distinct
+               floor(random() * (u_1-l_1+1) + l_1)::int as x, 
+               floor(random() * (u_2-l_2+1) + l_2)::int as y   
+        from   generate_series(1,n);
+     $$ language sql;
+}
+\end{alltt} 
+}    
+
+\begin{example}\label{queryQ1Q2}
+Consider the query $Q_1$
+\begin{alltt}\textcolor{blue}{
+select distinct r1.a
+from   R r1, R r2
+where  r1.b = r2.a;}
+\end{alltt}
+\noindent
+This query can be translated and optimized to the query $Q_2$
+\begin{alltt}\textcolor{blue}{
+select distinct r1.a
+from   R r1 natural join (select distinct r2.a as b from R r2) r2;}
+\end{alltt}
+\noindent
+Image that you have generated a relation ${\tt R}$.
+Then, when you execute  
+\begin{alltt}\textcolor{blue}{
+explain analyze
+select distinct r1.a
+from   R r1, R r2
+where  r1.b = r2.a;}
+\end{alltt}
+\noindent
+the system will return its query plan as well as the execution time
+to evaluate $Q_1$ measured in ms.
+And, when you execute
+\begin{alltt}\textcolor{blue}{
+explain analyze
+select distinct r1.a
+from   R r1 natural join (select distinct r2.a as b from R r2) r2;}
+\end{alltt}
+\noindent
+the system will return its query plan as well as the execution time
+to evaluate $Q_2$ measured in ms.
+This permits us to compare the 
+non-optimized query $Q_1$ with the optimized query $Q_2$ 
+for various differently-sized relations $R$.
+In the following table are some of these comparisons for various differently-sized random relations ${\tt R}$.
+In this table, {\tt R} was generated with lower and upper bounds $l_1=l_2=1000$ and $u_1=u_2=1000$.\footnote{
+%The ``$\mathtt{--}$" symbols indicates that I had to stop the experiment because it was taken too long.
+All the experiments in this section where done on a MacMini using PostgreSQL version 13 with default work memory of 4MB.}
+\begin{center}
+{\tt 
+\begin{tabular}{l|r|r}
+R & $Q_1$ (in ms) & $Q_2$ (in ms) \\ \hline
+$10^4$  &   27.03  &   7.80 \\
+$10^5$  & 3176.53 &   58.36 \\
+$10^6$  & 69251.58&  400.54 \\
+\end{tabular}}
+\end{center}
+Observe the significant difference between the execution times of the
+non-optimized query $Q_1$ and the optimized query $Q_2$.
+So clearly, optimization works on query $Q_1$.
+
+Incidentally, below are the query plans for $Q_1$ and $Q_2$.   
+Examining these query plans should reveal why $Q_1$ runs much slower than
+$Q_2$. (Convince yourself about the reason behind this difference.)
+%\newpage
+{\footnotesize
+\begin{alltt}
+\textcolor{purple}{
+             QUERY PLAN for Q1          
+------------------------------------
+ HashAggregate
+   Group Key: r1.a
+   ->  Hash Join
+         Hash Cond: (r1.b = r2.a)
+         ->  Seq Scan on r r1
+         ->  Hash
+               ->  Seq Scan on r r2
+}
+\end{alltt}
+}
+
+{\footnotesize
+\begin{alltt}
+\textcolor{purple}{
+                QUERY PLAN  for query Q2  
+------------------------------------------
+ HashAggregate
+   Group Key: r1.a
+   ->  Hash Join
+         Hash Cond: (r1.b = r2.a)
+         ->  Seq Scan on r r1
+         ->  Hash
+               ->  HashAggregate
+                     Group Key: r2.a
+                     ->  Seq Scan on r r2
+}
+\end{alltt}
+}
+\end{example}
+
+\newpage
+We now turn to the problems for this section.
+\begin{enumerate}[resume]
+\item \label{queryQ3Q4}
+Consider query $Q_3$
+\begin{alltt}\textcolor{blue}{
+select distinct r1.a
+from   R r1, R r2, R r3, R r4
+where  r1.b = r2.a and r2.b = r3.a and r3.b = r4.a;}
+\end{alltt}
+
+Intuitively, if we view $\mathtt{R}$ as a graph
+then $Q_3$ determines each source node of $\mathtt{R}$ from
+which a path of length 4 departs.
+I.e., each source node $n_0$ such that there exists a
+sequence of nodes $(n_1,n_2,n_3,n_4)$ such that $(n_0,n_1)$, $(n_1,n_2)$, 
+$(n_2,n_3)$, and $(n_3,n_4)$ are edges in $\mathtt{R}$.
+
+
+
+\begin{enumerate}
+\item Translate and optimize $Q_3$ query and call it $Q_4$.   Express $Q_4$ as an RA SQL query just as was done for query $Q_2$ in Example~\ref{queryQ1Q2}.
+
+Compare queries $Q_3$ and $Q_4$ in a similar way as we did for $Q_1$ and $Q_2$ in Example~\ref{queryQ1Q2}.
+
+You should experiment with different sizes for ${\tt R}$.   Incidentally, these relations do not need to use the same parameters
+as those shown in the above table for $Q_1$ and $Q_2$ in Example~\ref{queryQ1Q2}.
+
+
+\item What conclusions do you draw from the results of these experiments regarding the effectiveness of query optimization in PostgreSQL and/or by hand?
+\end{enumerate}
+
+
+
+%\newpage
+\item \label{only}
+Consider the query $Q_5$ 
+{%\footnotesize
+\begin{alltt}\textcolor{blue}{
+select p.a
+from   P p
+where  p.a not in (select r.a
+                   from   R r
+                   where  r.b not in (select q.b
+                                      from   Q q));}
+\end{alltt}
+}
+
+\begin{enumerate}
+\item Translate and optimize query $Q_5$ and call it $Q_6$.   Express $Q_6$ as an RA SQL query just as was done for $Q_2$ 
+in Example~\ref{queryQ1Q2}.
+Compare queries $Q_5$ and $Q_6$ in a similar way as we did in Example~\ref{queryQ1Q2}.
+However, now you should experiment with different sizes or properties for ${\tt P}$, ${\tt R}$ and ${\tt Q}$.  You might consider 
+how ${\tt P}$ and ${\tt Q}$ interact with $\mathtt{R}$.
+\footnote{For example, if the `$\mathtt{a}$' attribute in $\mathtt{R}$ is a foreign key referencing the `$\mathtt{a}$' 
+attribute in $\mathtt{P}$,
+then $Q_5$ can be optimized in a different way than if this were not the case.  Another interesting case is when $|P|$ or $|Q|$, or both, are small
+relative to $|\pi_{\mathtt{a}}(\mathtt{R})|$ or $|\pi_{\mathtt{b}}(\mathtt{R})|$, respectively.}
+
+\item What conclusions do you draw from the results of these experiments regarding the effectiveness of query optimization in PostgreSQL and/or by hand?
+\end{enumerate}
+
+\newpage
+\item 
+\label{onlytwo} Repeat Problem~\ref{only} but now when $Q_5$ is expressed as 
+{%\footnotesize
+\begin{alltt}\textcolor{blue}{
+select p.a
+from   P p
+where  true = all (select p.a != r.a or true = some (select r.b = q.b
+                                                     from   Q q)
+                   from   R r);}
+\end{alltt}
+}
+
+%\newpage
+\item \label{all}
+Consider the query $Q_7$
+{%\footnotesize
+\begin{alltt}\textcolor{blue}{
+select p.a
+from   P p
+where  not exists (select 1
+                   from   Q q
+                   where  (p.a, q.b) not in (select r.a, r.b
+                                             from   R r));}
+\end{alltt}
+}
+\begin{enumerate}
+\item Translate and optimize query $Q_7$ and call it $Q_8$.   Express $Q_8$ as an RA SQL query just as was done for $Q_2$ 
+in Example~\ref{queryQ1Q2}.
+
+Compare queries $Q_7$ and $Q_8$ in a similar way as we did In Example~\ref{queryQ1Q2}.
+However, now you should experiment with different sizes for {\tt P}, ${\tt R}$ and ${\tt Q}$.   
+You might consider 
+how ${\tt P}$ and ${\tt Q}$ interact with $\mathtt{R}$. (See footnote 4.)
+
+
+
+\item What conclusions do you draw from the results of these experiments?
+
+
+
+\end{enumerate}
+
+
+
+\item  Give a brief comparison of your results for Problem~\ref{only} and Problem~\ref{all}.   In particular, explain why you notice differences or similarities
+when you make this comparison.   Considering the query plans for the queries involved may aid in this comparison.
+
+
+\end{enumerate}
+
+\newpage
+\section{Object Relational Programming}
+
+The following problems require you to write object relational programs.  
+%Many of these require program written in Postgres' {\tt plpgsql} database programming language.
+
+
+\begin{enumerate}[resume]
+\item %\textcolor{red}{\bf Practice Problem--not graded}
+Consider the relation schema {\tt V(node int)} and {\tt E(source int, target int)}
+representing the schema for storing a directed graph $G$ with nodes in  {\tt V} and
+edges in {\tt E}.
+
+Now let $G$ be a directed graph that is {\bf acyclic}, i.e., a graph without cycles.\footnote{A cycle is
+a path $(n_0,\ldots, n_l)$ where $n_0=n_l$.}
+
+A \emph{topological sort} of an acyclic graph $G$ is a list of {\bf all} nodes 
+$(n_1,n_1,\ldots, n_k)$ in {\tt V} such that for each edge $(m,n)$ in $\mathtt{E}$,
+node $m$ occurs before node $n$ in this list.   %Note that a path can be stored in an array.
+
+\begin{enumerate}
+\item Write a PostgreSQL program {\tt someTopologicalSort()} that returns some
+topological sort of $G$.
+\item Write a PostgreSQL program {\tt allTopologicalSorts()} that returns a table of all topological sorts of $G$.
+\end{enumerate}
+
+\blue{\bf For this problem, your solution can use arrays.}
+
+%\newpage
+\item %\textcolor{red}{\bf Practice problem--not graded}. 
+
+Suppose you have a weighted (directed) graph $G$ stored
+  in a ternary table with schema
+  \begin{center}
+  {\tt Graph(source int, target int, weight int)}
+  \end{center}
+    A triple
+  $(s,t,w)$ in Graph indicates that $G$ has an edge $(s,t)$ whose
+  edge weight is $w$.
+  (In this problem, we will assume that each edge weight is a positive
+  integer.)
+
+  Below  is an example of a graph $G$.
+
+
+\begin{center}
+\begin{tabular}{c}
+{\tt Graph} $G$ \\
+\begin{tabular}{|c|c|c|}\hline
+source & target & weight \\ \hline\hline
+0 & 1 & 2 \\
+1 & 0 & 2 \\
+0 & 4 & 10 \\
+4 & 0 & 10 \\
+1 & 3 & 3 \\
+3 & 1 & 3 \\
+1 & 4 & 7 \\
+4 & 1 & 7 \\
+2 & 3 & 4 \\
+3 & 2 & 4 \\
+3 & 4 & 5 \\
+4 & 3 & 5 \\
+4 & 2 & 6 \\ \hline
+\end{tabular}
+\end{tabular}
+\end{center}
+
+  \blue{\bf Without using arrays}\footnote{\blue{I.e., you can only use relations that contain tuples whose components are integer values.}},
+  implement Dijkstra's Shortest Path Algorithm as a PostgreSQL function {\tt Dijkstra(s integer)}
+  to compute the shortest path lengths (i.e., the distances) from some
+  input vertex $s$ in $G$ to all other vertices in $G$. {\tt Dijkstra(s integer)}
+  should accept an argument $s$, the source vertex, and outputs a table
+  which represents the pairs $(t, d)$ where $d$ is the
+  shortest distance from $s$ to $t$ in graph $G$. To test your procedure, you can
+  use the graph shown above.
+
+
+For example, when you apply {\tt Dijkstra(0)}, you should obtain the
+following table:
+
+\begin{center}
+\begin{tabular}{|c|c|}\hline
+target & shortestDistance \\ \hline\hline
+0 & 0 \\
+1 & 2 \\
+2 & 9 \\
+3 & 5 \\
+4 & 9 \\ \hline
+\end{tabular}
+\end{center}
+
+
+%\newpage
+
+
+
+\item %\textcolor{red}{\bf Practice problem-- not graded}
+Consider the following relational schemas.  (You can assume that the domain of each of the attributes in these relations is {\tt int}.)
+\begin{center}
+{\tt 
+\begin{tabular}{l}
+partSubpart(\underline{pid,sid},quantity) \\
+basicPart(\underline{pid},weight)
+\end{tabular}
+}
+\end{center}
+
+A tuple $(p, s, q)$  
+is in {\tt partSubPart} if  part $s$ occurs $q$ times as a {\bf
+    direct} subpart of part $p$.  For example, think of a car $c$ that has 4
+  wheels $w$ and 1 radio $r$. Then $(c,w,4)$ and $(c,r,1)$ would be in {\tt partSubpart}.  Furthermore, then think of a wheel $w$ that has 5 bolts $b$.
+  Then $(w,b,5)$ would be in {\tt partSubpart}.
+  
+  A  tuple $(p, w)$ is in {\tt basicPart} if basic part $p$ has
+  weight $w$.  A basic part is defined as a part that does not have
+  subparts.  In other words, the pid of a basic part does not occur
+  in the pid column of {\tt partSubpart}.
+
+ (In the above example, a bolt and a radio would be basic parts, but car and
+ wheel would not be basic parts.)
+
+We define the \emph{aggregated weight} of a part inductively as follows:
+\begin{enumerate}
+\item If $p$ is a basic part then its aggregated weight is its weight as given in
+the {\tt basicPart} relation
+\item If $p$ is not a basic part, then its aggregated weight is the
+sum of the aggregated weights of its subparts, each multiplied by the
+quantity with which these subparts occur in the {\tt partSubpart} relation.
+\end{enumerate}
+
+%\newpage
+\textbf{Example tables}: The following example is based on a desk
+lamp with {\tt pid} $1$. Suppose a desk lamp consists of 4 bulbs (with {\tt pid} $2$)  and a frame (with {\tt pid} $3$), and a frame
+consists of a post (with {\tt pid} $4$) and 2 switches (with {\tt pid} $5$). 
+Furthermore, we will assume that the weight of a bulb is 5, that of a post is 50, and that of a switch
+is 3. 
+
+Then the {\tt partSubpart} and {\tt basicPart} relation would be as
+follows:
+\begin{center}
+\begin{tabular}{ccc}
+\begin{tabular}{c}
+\textbf{partSubPart} \\ 
+   \begin{tabular}{|c|c|c|} \hline
+   pid & sid & quantity\\
+   \hline
+   1 & 2 & 4\\
+   1 & 3 & 1\\
+   3 & 4 & 1\\
+   3 & 5 & 2\\
+\hline
+\end{tabular}\\
+\end{tabular}
+&
+\begin{tabular}{c}
+\textbf{basicPart}\\ 
+   \begin{tabular}{|c|c|} \hline
+   pid &weight\\
+   \hline
+   2 & 5\\
+   4 & 50\\
+   5 & 3\\
+\hline
+\end{tabular}\\
+\end{tabular}
+\end{tabular}
+\end{center}
+
+
+Then the aggregated weight of a lamp is $4\times 5 + 1\times( 1\times
+50 + 2\times 3) = 76$.
+
+\begin{enumerate}
+\item \blue{\bf Without using arrays} (see footnote 6),
+write a {\bf recursive} function {\tt recursiveAggregatedWeight(p integer)} that returns the aggregated weight of a part {\tt p}.   Test your function for all parts.
+\item \blue{\bf Without using arrays} (see footnote 6), write a {\bf non-recursive} function {\tt nonRecursiveAggregatedWeight(p integer)}
+that returns the aggregated weight of a part {\tt p}.   Test your function for all parts.
+\end{enumerate}
+
+
+%\newpage
+
+\item 
+Consider the relation schema {\tt personSkills(\underline{pid} int, skills text[])} 
+representing a relation of pairs $(p,S)$ where $p$ is the unique pid of a person
+and $S$ denotes the set of skills of that person.
+
+Let \blue{$\mathbf{Skill}$} denote the set of all possible skills and
+let $t$ be a non-negative integer (i.e, $t\geq 0$) denoting a \emph{threshold}. 
+Let $X \subseteq \blue{\mathbf{Skill}}$.   We say that $X$ is $t$-frequent if
+\[|\{p\mid (p,S)\in {\tt personSkill}\ \text{and}\ X\subseteq S\}| \geq t\]
+In other words, $X$ is \emph{$t$-frequent} if there are at least $t$ persons who each have all the job skills
+in $X$.
+
+Write a PostgreSQL program {\tt frequentSets(t int)} that returns the set of all $t$-frequent sets.
+
+In a good solution for this problem, you should use the following rule:
+if $X$ is not $t$-frequent then any set $Y$ such that $Y\supseteq X$ is not $t$-frequent either.
+In the literature, this is called the \emph{Apriori} rule of the frequent itemset mining problem.
+This rule can be used as a pruning rule.   In other words, if you have determined that a
+set $X$ in not $t$-frequent then you no longer have to consider any of $X$'s supersets $Y$.
+
+To learn more about this problem you can visit the site\\ {\tt https://en.wikipedia.org/wiki/Apriori\_algorithm}.
+
+Test your function {\tt frequentSets} for thresholds $0$ through $5$.
+
+\blue{\bf For this problem, your solution can use arrays.}
+
+
+\item %\textcolor{red}{\bf Practice problem--not graded}.
+
+Consider a directed graph $G$ stored in a relation {\tt Graph(source int, target int)}.  We say that 
+$G$ is \emph{Hamiltonian} if $G$ has a cycle $(n_1,\ldots n_k)$ such that each node $n$ in $G$ occurs once, but only once, as a node in this cycle.
+
+\begin{enumerate}
+\item Write a {\bf recursive} function {\tt recursiveHamiltonian()} that returns {\tt true} if the
+graph stored in {\tt Graph} is Hamiltonian, and {\tt false} otherwise.   Test your function.
+\item Write a {\bf non-recursive} function {\tt nonRecursiveHamiltonian}
+that returns {\tt true} if the
+graph stored in {\tt Graph} is Hamiltonian, and {\tt false} otherwise.   Test your function.
+\end{enumerate}
+
+
+\blue{\bf For this problem, your solution can use arrays.}
+
+\item Consider the relation schema {\tt Graph(source int, target int)}
+representing the schema for storing a directed graph $G$ of
+edges.
+
+Let `red', `green', and `blue' be 3 colors.
+We say that $G$ is \emph{3-colorable} if it is possible to assign to each vertex
+of $G$ one of these 3 colors provided that, for each edge $(s,t)$ in $G$, the color
+assigned to $s$ is different than the color assigned to $t$.
+
+Write a PostgreSQL program {\tt threeColorable()} that returns true
+if $G$ is 3-colorable, and false otherwise.   Test your function.
+
+\blue{\bf For this problem, your solution can use arrays.}
+
+\item  For this problem, first read about the 
+$k$-means clustering problem in
+\begin{verbatim}
+http://stanford.edu/~cpiech/cs221/handouts/kmeans.html
+\end{verbatim}
+Additionally, look at the $k$-means algorithm there described.
+Your task is to implement this algorithm in PostgreSQL for
+a dataset that consists of a set points in a 2-dimensional space.
+
+Assume that the dataset is stored in a ternary relation with schema
+\begin{center}
+{\tt dataSet(\underline{p} int, x float, y float)} 
+\end{center}
+where
+{\tt p} is an integer uniquely identifying a point ({\tt x}, {\tt y}).
+
+\blue{\bf Without using arrays} (see footnote 6), write a PostgreSQL program {\tt kMeans(k integer)} that returns
+a set of $k$ points that denote the centroids for the points
+in {\tt dataSet}.     Note that $k$ is an input parameter to
+the {\tt kMeans} function.
+
+You will need to reason about how to determine when the
+algorithm terminates.   (For hints, consider the above website.)
+
+Test your function for different values of $k$.
+
+
+\end{enumerate}
+\newpage
+
+
+
+\section{Key-value Stores (MapReduce and Spark)}
+
+\textcolor{red}{\bf All the problems in this section are practice problems}.
+
+\subsection{MapReduce}
+
+Consider the document ``MapReduce and the New Software Stack" available in the module on MapReduce.\footnote{This is Chapter 2 in \emph{Mining of Massive Datasets} by
+Jure Leskovec, Anand Rajaraman, and Jeffrey D. Ullman.}
+In that document, you can, in Sections 2.3.3-2.3.7, find descriptions of
+algorithms to implement relational algebra operations in MapReduce.   
+(In particular, look at the mapper and reducer functions for various RA operators.)
+
+\begin{remark}
+Even though MapReduce as a top-level programming language is only rarely used, it still serves as an underlying
+programming environment to which other languages compile.    Additionally, the programming techniques of applying maps to key-value stores
+and reducing (accumulating, aggregating) intermediate and final results is an important feature of parallel and distributed data processing.
+Additionally, the MapReduce framework forces one to reason about modeling data towards key-value stores.
+Finally, the fact that the MapReduce programming model can be entirely simulated in the PostgreSQL object-relational system underscores again the versatility of this system for a broad range of database programming and application problems.
+\end{remark}
+
+In the following problems, you are asked to write MapReduce programs
+that implement some RA operations and queries with aggregation in PostgreSQL.   In addition, you need to add
+the code which permits the PostgreSQL simulations for these  MapReduce programs.   
+%(Look in particular at the ``Additional Lecture Notes: Key-Value-MapReduce.pdf" file for details on how to do this.)
+
+\paragraph{Discussion}
+A crucial aspect of solving these problems is to develop an appropriate data representation for the input 
+to these problems.   Recall that in MapReduce the input is a {\bf single} binary relation of $(key,value)$ pairs.
+
+We will now discuss a general method for representing (encoding) a relational database in a single key-value store.
+Crucial in this representation is the utilization of {\tt json} objects.\footnote{Incidentally, this modeling technique is independent of
+MapReduce and can also be used to map relational data to other systems and programming languages that center around
+{\tt json} objects.}
+
+Consider a relation {\tt R(a,b,c)}.   For simplicity, we will assume that the domain of the attributes of {\tt R} is
+integer.\footnote{However, this approach can be generalized for other domains such as string, booleans, etc.}
+
+{\footnotesize
+\begin{alltt}\textcolor{blue}{
+create table R (a int, b int, c int);
+insert into R values (1,2,3), (4,5,6), (1,2,4);
+table R;
+
+ a | b | c 
+-----+---+---
+ 1 | 2 | 3
+ 4 | 5 | 6
+ 1 | 2 | 4
+}\end{alltt}
+}
+\noindent
+Starting from this relation {\tt R} we can, using {\tt jsonb}\footnote{PostgreSQL support both {\tt json} and {\tt jsonb} objects.  For this assignment, you should use the {\tt jsonb} object type since it comes with more functionality and offers more efficient computation.}
+functions and operations on {\tt jsonb} objects, come up
+with an encoding of {\tt R} as a key-value store.
+Consider the tuple $$(1,2,3)$$ in {\tt R}.
+We will represent (encode) this tuple as the key-value pair 
+$$\mbox{\tt (`R',\{"a":1, "b":2, "c":3\})}.$$   So the key of this pair is the relation name `{\tt R}' and
+the {\tt jsonb} object {\tt \{"a": 1, "b":2, "c": 1\}} represents the tuple $(1,2,3)$.
+Based on this idea of representing tuples of {\tt R}, 
+we can generate the entire key-value store for {\tt R} using an object-relational SQL query.\footnote{Notice that this strategy works in
+general for any relation, independent of the number of attributes
+of the relation.}
+To that end, we can use the {\tt jsonb\_build\_object} PostgreSQL function.
+{\footnotesize
+\begin{alltt}\textcolor{blue}{
+create table encodingofR (key text, value jsonb);
+
+insert into encodingofR 
+  select 'R' as key, jsonb_build_object('a', r.a, 'b', r.b, 'c', r.c) as value
+  from   R r;
+}\end{alltt}
+}
+\noindent
+This gives the following encoding for {\tt R}. 
+{\footnotesize
+\begin{alltt}\textcolor{blue}{
+table encodingofR;
+
+key |            value            
+-----+-----------------------------
+R   | \{"a" : 1, "b" : 2, "c" : 3\}   
+R   | \{"a" : 4, "b" : 5, "c" : 6\}   
+R   | \{"a" : 1, "b" : 2, "c" : 4\}   
+}\end{alltt}
+}
+\noindent
+Note that we can also ``decode" the {\tt encodingofR} key-value store to recover {\tt R}  
+by using the following object-relational SQL query.   To that end, we can use the {\tt jsonb} selector function {\tt ->}.
+
+{\footnotesize
+\begin{alltt}\textcolor{blue}{
+select p.value->'a' as a, p.value->'b' as b, p.value->'c' as c 
+from   encodingofR p;
+
+a | b | c 
+-----+---+---
+1 | 2 | 3
+4 | 5 | 6
+1 | 2 | 4
+}\end{alltt}
+}
+
+An important aspect of this encoding strategy is that it is
+possible to put multiple relations, possible with different schemas and arities, into the same key-value store.
+Besides {\tt R}, let us also consider a binary relation {\tt S(a,d)}.
+{\footnotesize
+\begin{alltt}\textcolor{blue}{
+create table S (a int, d int);
+insert into S values (1,2), (5,6), (2,1), (2,3);
+table S;
+
+a | d 
+-----+
+1 | 2 
+5 | 6 
+2 | 1 
+2 | 3 
+(4 rows)
+}\end{alltt}
+}
+\noindent
+We can now encode both {\tt R} and {\tt S} into a single key-value store {\tt encodingofRandS}
+as follows:
+{\footnotesize
+\begin{alltt}\textcolor{blue}{
+create table encodingofRandS(key text, value jsonb);
+
+insert into encodingofRandS 
+  select 'R' as key, jsonb_build_object('a', r.a, 'b', r.b, 'c', r.c) as value
+  from   R r
+  union
+  select 'S' as key, jsonb_build_object('a', s.a, 'd', s.d) as value
+  from   S s
+  order by 1, 2;
+
+table encodingofRandS;
+
+key |          value           
+-----+--------------------------
+R   | \{"a": 1, "b": 2, "c": 3\}
+R   | \{"a": 1, "b": 2, "c": 4\}
+R   | \{"a": 4, "b": 5, "c": 6\}
+S   | \{"a": 1, "d": 2\}
+S   | \{"a": 2, "d": 1\}
+S   | \{"a": 2, "d": 3\}
+S   | \{"a": 5, "d": 6\}
+(7 rows)
+}\end{alltt}
+}
+\noindent
+Furthermore, we can decode this key-value store using 2 object-relational SQL queries and
+recover {\tt R} and {\tt S}.
+{\footnotesize
+\begin{alltt}\textcolor{blue}{
+select p.value->'a' as a, p.value->'b' as b, p.value->'c' as c 
+from   encodingofRandS p
+where  p.key = 'R';
+
+a | b | c 
+-----+---+---
+1 | 2 | 3
+4 | 5 | 6
+1 | 2 | 4
+(3 rows)
+
+select p.value->'a' as a, p.value->'d' as d
+from   encodingofRandS p
+where  p.key = 'S';
+
+a | d 
+-----+
+1 | 2 
+5 | 6 
+2 | 1 
+2 | 3 
+(4 rows)
+}\end{alltt}
+}
+\begin{example}
+Consider the following problem.
+Write, in PostgreSQL, a basic MapReduce program, i.e., a {\tt mapper}
+function and a {\tt reducer} function, as well as a 3-phases simulation that
+implements the set intersection of two unary relations {\tt R(a)} and
+{\tt S(a)}, i.e., the relation ${\tt R} \cap {\tt S}$.  You can assume that the domain of
+the attribute {\tt `a'} is integer.
+{\footnotesize
+\begin{alltt}\textcolor{blue}{
+-- EncodingOfRandS;
+drop table R; drop table S;
+
+create table R(a int); 
+insert into R values (1),(2),(3),(4);
+create table S(a int);
+insert into S values (2),(4),(5);
+
+drop table EncodingOfRandS;
+create table EncodingOfRandS(key text, value jsonb);
+
+insert into EncodingOfRandS
+   select 'R' as key, jsonb_build_object('a', r.a) as value
+   from   R r
+   union
+   select 'S' as key, jsonb_build_object('a', s.a) as value
+   from   S s
+   order by 1;
+
+table EncodingOfRandS;
+
+ key |  value   
+-----+----------
+ R   | \{"a": 1\}
+ R   | \{"a": 4\}
+ R   | \{"a": 2\}
+ R   | \{"a": 3\}
+ S   | \{"a": 4\}
+ S   | \{"a": 5\}
+ S   | \{"a": 2\}
+(7 rows)
+
+-- mapper function
+CREATE OR REPLACE FUNCTION mapper(key text, value jsonb)
+RETURNS TABLE(key jsonb, value text) AS
+$$
+    SELECT value, key;
+$$ LANGUAGE SQL;
+
+-- reducer function
+CREATE OR REPLACE FUNCTION reducer(key jsonb, valuesArray text[])
+RETURNS TABLE(key text, value jsonb) AS
+$$
+    SELECT 'R intersect S'::text, key
+    WHERE  ARRAY['R','S'] <@ valuesArray;
+$$ LANGUAGE SQL;
+
+-- 3-phases simulation of MapReduce Program followed by a decoding step
+WITH
+Map_Phase AS (
+    SELECT m.key, m.value
+    FROM   encodingOfRandS, LATERAL(SELECT key, value FROM mapper(key, value)) m
+),
+Group_Phase AS (
+    SELECT key, array_agg(value) as value
+    FROM   Map_Phase
+    GROUP  BY (key)
+),
+Reduce_Phase AS (
+    SELECT r.key, r.value
+    FROM   Group_Phase, LATERAL(SELECT key, value FROM reducer(key, value)) r
+)
+SELECT p.value->'a' as a FROM Reduce_Phase p
+order by 1;
+
+a 
+---
+2
+4
+(2 rows)
+}\end{alltt}
+}
+
+\end{example}
+
+We now turn to the problems for this section.
+
+\begin{enumerate}[resume]
+\item \textcolor{red}{\bf Practice problem--not graded}. 
+
+Write, in PostgreSQL, a basic MapReduce program, i.e., a {\tt mapper}
+function and a {\tt reducer} function, as well as a 3-phases simulation that
+implements the symmetric difference of two unary relations {\tt R(a)} and
+{\tt S(a)}, i.e., the relation $({\tt R} - {\tt S})\cup({\tt S}-{\tt R})$.  You can assume that the domain of
+the attribute {\tt `a'} is integer.
+
+\item  \textcolor{red}{\bf Practice problem--not graded}. 
+
+Write, in PostgreSQL, a basic MapReduce program, i.e., a mapper function and a reducer function, as well as a 3-phases simulation 
+that implements the anti semijoin of two
+relations $\text{R(A,B)}$ and $\text{S(A,B,C)}$, i.e., the relation $R\,\overline{\ltimes}\, S$.
+You can assume that the domains of $A$, $B$, and $C$ are integer.
+Use the encoding and decoding methods described above.
+
+\item\label{join} \textcolor{red}{\bf Practice problem--not graded}. %
+ Write, in PostgreSQL, a basic MapReduce program, i.e., a mapper function and a reducer function, as well as a 3-phases simulation 
+that implements the natural join $R \bowtie S$ of two relations $\text{R(A, B)}$ and $\text{S(B,C)}$.
+You can assume that the domains of $A$, $B$, and $C$ are integer.
+Use the encoding and decoding methods described above.
+
+\item  \textcolor{red}{\bf Practice problem--not graded}. 
+
+Write, in PostgreSQL, a basic MapReduce program, i.e., a mapper function and a reducer function, as well as a 3-phases simulation 
+that implements the SQL query
+\begin{alltt}\textcolor{blue}{
+SELECT r.A, array_agg(r.B), sum(r.B)
+FROM   R r
+GROUP  BY (r.A)
+HAVING COUNT(r.B) < 3;
+}\end{alltt}
+Here $R$ is a relation with schema $(A,B)$.   You can assume that the domains of $A$ and $B$ are integers.
+Use the encoding and decoding methods described above.
+\end{enumerate}
+
+\subsection{Spark}
+We now turn to some problems that relate to query processing in {\tt Spark}.  Note that in {\tt Spark} it is possible to operate on multiple
+key-value stores.
+\begin{enumerate}[resume]
+\item\label{cogroup} 
+Let $R(K,V)$ and $S(K,W)$ be two binary key-value pair relations.
+You can assume that the domains of $K$, $V$, and $W$ are integers.
+Consider the cogroup transformation {\tt R.cogroup(S)} introduced in the
+lecture on {\tt Spark}.  
+
+\begin{enumerate}
+\item \textcolor{red}{\bf Practice problem--not graded}. 
+Define a PostgreSQL view {\tt coGroup} that computes a complex-object relation that represent the co-group transformation {\tt R.cogroup(S)}.
+Show that this view works.
+
+\item \textcolor{red}{\bf Practice problem--not graded}. 
+Write a PostgreSQL query that use this {\tt coGroup} view to compute the anti semijoin
+$R\, \overline{\ltimes}\, S$, in other words compute the relation $R - R \bowtie \pi_{K}(S)$.
+
+\item \textcolor{red}{\bf Practice problem--not graded}. 
+Write a PostgreSQL query that uses this {\tt coGroup} view to implement
+the SQL query
+
+\begin{alltt}\textcolor{blue}{
+ SELECT distinct r.K as rK, s.K as sK
+ FROM   R r, S s
+ WHERE  ARRAY(SELECT r1.V
+              FROM   R r1
+              WHERE  r1.K = r.K) <@ ARRAY(SELECT s1.W
+                                          FROM	  S s1
+                                          WHERE  s1.K = s.K);
+}\end{alltt}                                                  
+
+\end{enumerate}
+
+
+\item  Let {\tt A(x)} and {\tt B(x)} be the schemas to represent two set of integers $A$ and $B$.
+Consider the {\tt cogroup} transformation introduced in the
+lecture on {\tt Spark}.
+Using an approach analogous to the one in Problem~\ref{cogroup} solve
+the following problems:\footnote{An important aspect of this problem is to represent $A$ and $B$ as a key-value stores.}
+
+\begin{enumerate}
+\item \textcolor{red}{\bf Practice problem--not graded}.  Write a PostgreSQL query that uses the cogroup transformation
+to compute $A \cap B$.
+
+\item \textcolor{red}{\bf Practice problem--not graded}. Write a PostgreSQL query that uses the cogroup operator
+to compute the symmetric difference of $A$ and $B$, i.e., the expression
+$$(A - B) \cup (B-A).$$
+\end{enumerate}
+\end{enumerate}
+
+
+\newpage
+\section{Graph query languages}
+
+\textcolor{red}{\bf All the problems in this section are practice problems}.
+
+\bigskip
+
+\begin{enumerate}[resume]
+\item Consider the following relational database schema.\footnote{The primary key, which may consist of one or more attributes, of each of these relations is underlined.}
+
+\begin{center}
+{\tt
+  \begin{tabular}{l}
+  {Person}($\underline{\tt pid}$, pname, city) \\
+  {Company}($\underline{\tt cname}, {\tt headquarter}$) \\
+  {Skill}($\underline{\tt skill}$) \\
+  {worksFor}($\underline{\tt pid}$, cname, salary) \\
+  {companyLocation}($\underline{\tt cname, city}$) \\
+  {personSkill}($\underline{\tt pid, skill}$) \\
+  {hasManager}($\underline{\tt eid, mid}$) \\
+  {Knows}($\underline{\tt pid1, pid2}$) \\
+   \end{tabular}
+  }
+\end{center}
+
+In this database we maintain a set of persons ({\tt Person}), a set
+of companies ({\tt Company}), and a set of (job) skills ({\tt Skill}).  
+The {\tt pname} attribute in {\tt Person} is the name of the person.  
+The {\tt city} attribute in {\tt Person} specifies the city in which the person lives.  
+The {\tt cname} attribute in {\tt Company} is the name of the company.
+The {\tt headquarter} attribute in {\tt Company} is the name of the city wherein the company has its headquarter.
+The {\tt skill} attribute in {\tt Skill} is the name of a (job) skill.
+
+A person can work for at most one company. This information is maintained in the {\tt worksFor} relation. (We permit that a person does not work for any company.)
+The {\tt salary} attribute in {\tt worksFor} specifies the salary made by the person.
+
+The {\tt city} attribute in {\tt companyLocation} indicates a city in which the company is located.
+(Companies may be located in multiple cities.)
+
+A person can have multiple job skills. This information is maintained in the {\tt personSkill} relation.  A job skill can be
+the job skill of multiple persons.  (A person may not have any job skills, and a job skill may
+have no persons with that skill.)
+
+A pair $(e,m)$ in {\tt hasManager} indicates that person $e$ has  
+person $m$ as one of his or her managers.
+We permit that an employee has multiple managers and that a manager  may manage
+multiple employees.  (It is possible that an employee has no manager
+and that an employee is not a manager.)
+We further require that 
+an employee and his or her managers must work for the
+same company.
+
+The relation {\tt Knows} maintains a set of pairs $(p_1,p_2)$ where $p_1$ 
+and $p_2$ are pids of persons.   The pair $(p_1,p_2)$ indicates that the person with
+pid $p_1$ knows the person with pid $p_2$.
+We do not assume that the relation {\tt Knows} is
+symmetric: it is possible that $(p_1,p_2)$ is in the relation but that
+$(p_2,p_1)$ is not.
+
+The domain for the attributes {\tt pid}, {\tt pid1}, {\tt pid2}, {\tt salary}, {\tt eid}, and {\tt mid} is {\tt integer}.   The domain for all other attributes is {\tt text}.
+
+We assume the following foreign key constraints:
+\begin{itemize}
+\item {\tt pid} is a foreign key in {\tt worksFor} referencing the primary key {\tt pid} in {\tt Person};
+\item {\tt cname} is a foreign key in {\tt worksFor} referencing the primary key {\tt cname} in {\tt Company};
+\item {\tt cname} is a foreign key in {\tt companyLocation} referencing the primary key {\tt cname} in {\tt Company};
+\item {\tt pid} is a foreign key in {\tt personSkill} referencing the primary key {\tt pid} in {\tt Person};
+\item {\tt skill} is a foreign key in {\tt personSkill} referencing the primary key {\tt skill} in {\tt Skill};
+\item {\tt eid} is a foreign key in {\tt hasManager} referencing the primary key {\tt pid} in {\tt Person}; 
+\item {\tt mid} is a foreign key in {\tt hasManager} referencing the primary key {\tt pid} in {\tt Person};
+\item {\tt pid1} is a foreign key in {\tt Knows} referencing the primary key {\tt pid} in {\tt Person}; and
+\item {\tt pid2} is a foreign key in {\tt Knows} referencing the primary key {\tt pid} in {\tt Person}
+\end{itemize}
+
+
+\begin{enumerate}
+\item \textcolor{red}{\bf Practice problem--not graded}. 
+\label{ER} Specify  an  Entity-Relationship  Diagram  that  models  this  database schema.
+
+
+
+
+\item \textcolor{red}{\bf Practice problem--not graded}. 
+\label{propertygraphmodel} Specify  the  node  and  relationship  types  of  a  Property  Graph  for this  database  schema.   In  addition,  specify  the  properties,  if  any, associated with each such type.
+
+\end{enumerate}
+%\newpage
+
+\item Using the Property Graph model in Problem~\ref{propertygraphmodel},
+formulate the following queries in the Cypher query language:
+\begin{enumerate}
+\item \textcolor{red}{\bf Practice problem--not graded}. 
+Find the types of the relationships associated with {\tt Person} nodes.
+
+\item \textcolor{red}{\bf Practice problem--not graded}. 
+Find each person (node) whose name is ‘John’ and has a salary that is at least 50000.
+
+
+
+\item \textcolor{red}{\bf Practice problem--not graded}. 
+Find each Skill (node) that is the skill of a person who knows 
+a person who works for 'Amazon' and who has a salary that is at least 50000.
+
+\item \textcolor{red}{\bf Practice problem--not graded}. 
+Find each person (node) who knows directly or indirectly (i.e., recursively) another person who works for Amazon.
+
+\item \textcolor{red}{\bf Practice problem--not graded}. 
+Find for each company node, that node along with the number of persons who work for that company
+and who have both the Databases and Networks skills.
+
+
+
+\end{enumerate}
+
+\end{enumerate}
+
+\end{document}
+
+
+
+

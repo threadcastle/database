@@ -1,0 +1,475 @@
+\documentclass[10pt]{article}
+\usepackage{fullpage}
+\usepackage{amsmath,amsfonts,amsthm}
+\usepackage{graphicx}
+\usepackage{listings}
+\usepackage{float}
+\usepackage{listings}
+
+\graphicspath{ {./figure/} }
+
+\usepackage{enumitem}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{fancyvrb}
+\usepackage{venndiagram}
+\usepackage{tikz}
+\newtheorem{example}{Example}
+\usepackage{alltt,xcolor}
+
+
+\newcommand{\redbullet}{$\textcolor{red}{\bullet}$}
+\newcommand{\bluebullet}{$\textcolor{blue}{\bullet}$}
+
+\newcommand{\red}[1]{\textcolor{red}#1}
+\newcommand{\green}[1]{{\color{green}#1}}
+\newcommand{\blue}[1]{{\color{blue}#1}}
+\newcommand{\purple}[1]{{\color{purple}#1}}
+\newcommand{\orange}[1]{{\color{orange}#1}}
+\newcommand{\hashjoin}[1]{\begin{array}{c} \mathtt{hashJoin} \\ \bowtie\\ {#1}\\ \end{array}}
+\newcommand{\mergejoin}[1]{\begin{array}{c} \mathtt{mergeJoin} \\ \bowtie\\ {#1}\\ \end{array}}
+\newcommand{\indexjoin}[1]{\begin{array}{c} \mathtt{indexJoin} \\ \bowtie\\ {#1}\\ \end{array}}
+\newcommand{\nestedjoin}[1]{\begin{array}{c} \mathtt{nestedLoopJoin} \\ \bowtie\\ {#1}\\ \end{array}}
+
+\newcommand{\sortprojection}[1]{\begin{array}{c} \mathtt{sortProjection} \\ \pi_{#1}\ \end{array}}
+\newcommand{\hashprojection}[1]{\begin{array}{c} \mathtt{hashProjection} \\ \pi_{#1}\ \end{array}}
+\newcommand{\scan}[1]{\begin{array}{c} \mathtt{scan} \\ {#1}\ \end{array}}
+\newcommand{\filter}[1]{\begin{array}{c} \mathtt{filterSelection}\\ \sigma_{#1}\ \end{array}}
+\newcommand{\filterscan}[2]{\begin{array}{c} \mathtt{filterScan}\\ \sigma_{#1}(#2)\ \end{array}}
+\newcommand{\sortfilterscan}[2]{\begin{array}{c}\mathtt{sort} \mathtt{filterScan}\\ \sigma_{#1}(#2)\ \end{array}}
+
+
+
+\author{Team 37}
+\title{Homework 7 -- Solutions}
+
+\begin{document}
+
+\maketitle
+\subsection*{1.}
+\subsubsection*{(a)}
+Towards query plan for the NO generalized quantifier (Pure SQL
+with true = not some)
+
+\begin{alltt}\textcolor{blue}{
+explain select r1.a,r2.a
+        from r r1,r r2
+        where not true=some(select r3.a=r1.a and true=some(select r4.a=r2.a and r3.b=r4.b
+		                                                        from r r4)
+			                       from r r3);}
+\end{alltt}
+
+{\footnotesize
+\begin{alltt}
+\textcolor{purple}{
+                              QUERY PLAN
+------------------------------------------------------------------------
+ Nested Loop  (cost=0.00..143103268435.85 rows=2553800 width=8)
+   Join Filter: (NOT (SubPlan 2))
+   ->  Seq Scan on r r1  (cost=0.00..32.60 rows=2260 width=4)
+   ->  Materialize  (cost=0.00..43.90 rows=2260 width=4)
+         ->  Seq Scan on r r2  (cost=0.00..32.60 rows=2260 width=4)
+   SubPlan 2
+     ->  Seq Scan on r r3  (cost=0.00..56029.75 rows=2260 width=1)
+           SubPlan 1
+             ->  Seq Scan on r r4  (cost=0.00..43.90 rows=2260 width=1)
+}
+\end{alltt}
+}
+
+Four nested loops: $O(|R|^4)$
+\subsubsection*{(b)}
+Towards query plan for the NO generalized quantifier (Pure SQL
+with not exists)
+
+\begin{alltt}\textcolor{blue}{
+explain select r1.a,r2.a
+        from r r1,r r2
+        where not exists(select 1
+    				from r r3
+    				where r3.a=r1.a and exists(select 1
+    										  from r r4
+    										  where r4.a=r2.a and r3.b=r4.b));
+}
+\end{alltt}
+
+{\footnotesize
+\begin{alltt}
+\textcolor{purple}{
+                                QUERY PLAN
+--------------------------------------------------------------------------
+ Hash Anti Join  (cost=60.85..168313587.91 rows=3830700 width=8)
+   Hash Cond: (r1.a = r3.a)
+   Join Filter: (hashed SubPlan 2)
+   ->  Nested Loop  (cost=0.00..63915.85 rows=5107600 width=8)
+         ->  Seq Scan on r r1  (cost=0.00..32.60 rows=2260 width=4)
+         ->  Materialize  (cost=0.00..43.90 rows=2260 width=4)
+               ->  Seq Scan on r r2  (cost=0.00..32.60 rows=2260 width=4)
+   ->  Hash  (cost=32.60..32.60 rows=2260 width=8)
+         ->  Seq Scan on r r3  (cost=0.00..32.60 rows=2260 width=8)
+   SubPlan 2
+     ->  Seq Scan on r r4  (cost=0.00..32.60 rows=2260 width=8)
+}
+\end{alltt}
+}
+$O(2R^2+R)$
+\subsubsection*{(c)}
+Query plan for NO quantifier using IN
+
+\begin{alltt}\textcolor{blue}{
+explain select r1.a,r2.a
+        from r r1,r r2
+        where not exists(select 1
+				        from r r3
+				        where r3.a=r1.a and (r2.a,r3.b) in (select r4.a,r4.b
+												   from r r4));
+}
+\end{alltt}
+
+{\footnotesize
+\begin{alltt}
+\textcolor{purple}{
+                                QUERY PLAN
+--------------------------------------------------------------------------
+ Hash Anti Join  (cost=99.10..165049.66 rows=3830700 width=8)
+   Hash Cond: (r1.a = r3.a)
+   Join Filter: (hashed SubPlan 1)
+   ->  Nested Loop  (cost=0.00..63915.85 rows=5107600 width=8)
+         ->  Seq Scan on r r1  (cost=0.00..32.60 rows=2260 width=4)
+         ->  Materialize  (cost=0.00..43.90 rows=2260 width=4)
+               ->  Seq Scan on r r2  (cost=0.00..32.60 rows=2260 width=4)
+   ->  Hash  (cost=32.60..32.60 rows=2260 width=8)
+         ->  Seq Scan on r r3  (cost=0.00..32.60 rows=2260 width=8)
+   SubPlan 1
+     ->  Seq Scan on r r4  (cost=0.00..32.60 rows=2260 width=8)
+}
+\end{alltt}
+}
+
+$O(2R^2+R)$
+
+\subsection*{2.}
+
+\begin{itemize}
+\item[a.] use $true = all()$ and $exists$\\
+
+
+
+\begin{lstlisting}
+"qp"
+"Unique"
+"  ->  Sort"
+"        Sort Key: p.a, q.a"
+"        ->  Hash Semi Join"
+"              Hash Cond: (p.a = r.a)"
+"              Join Filter: (SubPlan 1)"
+"              ->  Nested Loop"
+"                    ->  Seq Scan on p"
+"                    ->  Materialize"
+"                          ->  Seq Scan on q"
+"              ->  Hash"
+"                    ->  Seq Scan on r"
+"              SubPlan 1"
+"                ->  Seq Scan on s"
+"                      Filter: (a = q.a)"
+\end{lstlisting}
+
+
+\newpage
+\item[b.] eliminate $true = all()$ and $ [not] exists $ and using RA \\
+\begin{lstlisting}
+"qp"
+"Unique"
+"  ->  Subquery Scan on m"
+"        ->  SetOp Except"
+"              ->  Sort"
+"                    Sort Key: ""*SELECT* 1"".pa, ""*SELECT* 1"".qa, 
+                        ""*SELECT* 1"".a, ""*SELECT* 1"".b"
+"                    ->  Append"
+"                          ->  Subquery Scan on ""*SELECT* 1"""
+"                                ->  Nested Loop"
+"                                      ->  Hash Join"
+"                                            Hash Cond: (p.a = r.a)"
+"                                            ->  Seq Scan on p"
+"                                            ->  Hash"
+"                                                  ->  Seq Scan on r"
+"                                      ->  Materialize"
+"                                            ->  Seq Scan on q"
+"                          ->  Subquery Scan on ""*SELECT* 2"""
+"                                ->  Hash Join"
+"                                      Hash Cond: (s.b = r_1.b)"
+"                                      ->  Hash Join"
+"                                            Hash Cond: (q_1.a = s.a)"
+"                                            ->  Seq Scan on q q_1"
+"                                            ->  Hash"
+"                                                  ->  Seq Scan on s"
+"                                      ->  Hash"
+"                                            ->  Hash Join"
+"                                                  Hash Cond: (p_1.a = r_1.a)"
+"                                                  ->  Seq Scan on p p_1"
+"                                                  ->  Hash"
+"                                                        ->  Seq Scan on r r_1"
+\end{lstlisting}
+
+\newpage
+\item[c.] eliminate $where$ and using $join$ $ operation$\\
+\begin{lstlisting}
+"qp"
+"Unique"
+"  ->  Subquery Scan on m"
+"        ->  SetOp Except"
+"              ->  Sort"
+"                    Sort Key: ""*SELECT* 1"".pa, ""*SELECT* 1"".qa, 
+                        ""*SELECT* 1"".a, ""*SELECT* 1"".b"
+"                    ->  Append"
+"                          ->  Subquery Scan on ""*SELECT* 1"""
+"                                ->  Nested Loop"
+"                                      ->  Hash Join"
+"                                            Hash Cond: (p.a = r.a)"
+"                                            ->  Seq Scan on p"
+"                                            ->  Hash"
+"                                                  ->  Seq Scan on r"
+"                                      ->  Materialize"
+"                                            ->  Seq Scan on q"
+"                          ->  Subquery Scan on ""*SELECT* 2"""
+"                                ->  Hash Join"
+"                                      Hash Cond: (s.b = r_1.b)"
+"                                      ->  Hash Join"
+"                                            Hash Cond: (s.a = q_1.a)"
+"                                            ->  Seq Scan on s"
+"                                            ->  Hash"
+"                                                  ->  Seq Scan on q q_1"
+"                                      ->  Hash"
+"                                            ->  Hash Join"
+"                                                  Hash Cond: (p_1.a = r_1.a)"
+"                                                  ->  Seq Scan on p p_1"
+"                                                  ->  Hash"
+"                                                        ->  Seq Scan on r r_1"
+\end{lstlisting}
+
+\end{itemize}
+
+
+\newpage
+\subsection*{3.}
+\subsection*{3.}
+\subsubsection*{(a)}
+We compare the non-optimized query Q3
+with the optimized query Q4 for various differently-sized relations R. In the
+following table are some of these comparisons for various differently-sized random relations R
+
+\begin{center}
+\title{results on table.}
+\\ \hspace*{\fill} \\
+\begin{tabular}{c|c|c}
+\hline
+dataset scale & execution time of Q3 (in ms) & execution time of Q4 (in ms) \\ \hline
+$10^4$ rows &  35.493 & 27.404 \\
+$10^5$ rows & 623.002 & 967.326 \\
+$10^6$ rows & 8144.356 & 13829.844 \\
+\hline
+\end{tabular}
+\end{center}
+\subsubsection*{(b)}
+Sometimes  the effectiveness of query optimization will not be better than the effectiveness of non-optimized query.
+\subsection*{4-6}
+In question 4-6, we consider three scenarios.
+\begin{itemize}
+\item[a.] Size of relation $P$ changes\\
+Size for $P$ ranges from 6,000 to 600,000. $Q$ is generated by function SetOfIntegers with 10,000 as the upper-bound, including more than 6,000 tuples. $R$ is generated with more than 9,000 tuples.
+
+\item[b.] Size of relation $R$ changes and is always greater than size of $P,Q$.\\
+Size for $R$ ranges from 10,000 to 100,000. $P, Q$ are generated by function SetOfIntegers with 10,000 as the upper-bound, including more than 6,000 tuples.
+
+
+\item[c.] Size of relation $R$ changes and the $a$ attribute in R is a foreign key referencing the $a$ attribute in P\\
+Size for $R$ ranges from 10,000 to 100,000. $P, Q$ are generated by function SetOfIntegers with 10,000 as the upper-bound, including more than 6,000 tuples. Besides, $a$ attribute in R is a foreign key referencing the $a$ attribute in P.
+
+\end{itemize}
+
+\subsection*{CASE A}
+\begin{center}
+\begin{tabular}{c|r|r|r}
+size $n$ of relation $P/$ \\
+execution time of $Q$ (in ms)
+&
+6,000&
+60,000&
+600,000
+ \\ \hline
+$Q_5$    & 4.53 &  15.3 & 99.4\\
+$Q_6$    & 15.5 &  86.6 & 699.2\\
+$Q_{5-2}$& 6551  & 62710 & 606682\\
+$Q_7$    & 4.03 &  20.1 & 2321\\
+$Q_8$    & 14.3  & 94.5 & 1045\\
+\end{tabular}
+\end{center}
+
+\subsection*{CASE B}
+\begin{center}
+\begin{tabular}{c|r|r|r}
+size $n$ of relation $R/$ \\
+execution time of $Q$ (in ms)
+&
+10,000&
+100,000&
+1,000,000
+ \\ \hline
+$Q_5$    & 4.977 &  23.8 & 131951\\
+$Q_6$    &15.916 &  47.9 & 279.6\\
+$Q_{5-2}$& 6990 &  60434 & 408192\\
+$Q_7$    & 5.15 &  23.5 & 474798\\
+$Q_8$    & 15.04 &  96.7 & 199\\
+\end{tabular}
+\end{center}
+
+\subsection*{CASE C}
+\begin{center}
+\begin{tabular}{c|r|r}
+size $n$ of relation $R/$ \\
+execution time of $Q$ (in ms)
+&
+10,000&
+100,000
+ \\ \hline
+$Q_5$    & 5.07 &  27.5 \\
+$Q_6$    & 25.8 &  52.3 \\
+$Q_{5-2}$& 8446 &  8903 \\
+$Q_7$    & 3.9 &   24.4 \\
+$Q_8$    & 15.7 &  34.0 \\
+\end{tabular}
+\end{center}
+
+<<<<<<< HEAD
+\subsection*{4. Comparison between $Q_5,  Q_6$}
+$Q_5$ evaluate the existence in a nested query. As the size of $P$ increases, the execution time grows slowly while the time grows sharply with increased size of $R$. In the first case, the relation $P$ is partial evaluated with a small $R$. In the second case, the time grows due to repeatedly scanning of the large relation $R$. When a foreign key constraint is added between $P, R$, the performance for $Q_5$ doesn't improve a lot.\\
+$Q_6$ is a RA translated from $Q_5$. The equality of attributes is optimized with \textit{natural join} among relations. It has to be scan all tuples to get a joined subset satisfying the condition, therefore it has a worse performance compared to $Q_5$. When the foreign key constraint is considered, the performance of $Q_6$ improves dramatically ($Q_6$ in case b versus case c).\\
+In general, $Q_5$ has greater execution time than $Q_6$ in most cases. However, the magnitude of running time are quite similar with the same relations in both queries.
+\subsection*{5. Comparison between $Q_{5-2},  Q_6$}
+$Q_{5-2}$ is a pure sql consisting \textit{true = all, true= some} statement. It is less efficient than $Q_5$ and the execution time linearly increases as the size of relation goes up. The optimized RA of $Q_{5-2}$ is identical as $Q_6$, which is the optimized RA of $Q_5$. $Q_6$ shows huge improvement of performance compared to $Q_{5-2}$ in all cases.\\
+$Q_{5-2}$ fully evaluates within a nested query. Therefore, it will have a poor performance compared to set difference process in $Q_6$.
+\subsection*{6. Comparison between $Q_7,  Q_8$}
+$Q_7$ is a pure sql that allows partially evaluation within the sub-query. In comparison, $Q_8$ is a RA involved multiple set differentiation. In most case, $Q_7$ outperforms $Q_8$. However, We observed huge improvement of $Q_8$ when there is a large relation $P$, or the size of $R$ is much greater than size of $P, Q$. The foreign key constraint is beneficial for $Q_8$ but there are few difference for $Q_7$.
+\subsection*{7. Comparison between Problem 4 and Problem 6}
+$Q_5$ has a similar performance as $Q_7$. In both queries, the running time decreases due to violations of subquery, leading to a early termination without fully scanning.\\
+$Q_6$ and $Q_8$ are RA with multiple set difference, but slightly different. $Q_6$ involves several join operations and nested selections to remove the attribute equity among relations. In contrast, $Q_8$ has only one \textit{cross join} operation and less subquery scanning. Therefore, $Q_8$ has a better performance, especially with large relations. 
+=======
+\subsection*{7.}
+
+>>>>>>> 5b4fd3d08784a81de3853e981d8469222d1acd45
+\newpage
+\subsection*{Appendix.} 
+
+\subsection*{2.}
+
+
+using $true = all()$ and $ [not] exists $ 
+{
+\begin{alltt}\textcolor{blue}{
+
+select distinct p.a, q.a from P p, Q q where exists(
+	select 1 from R r where r.a = p.a and true = all(select s.b <> r.b from S s where s.a = q.a));
+}
+\end{alltt}
+}
+
+
+
+eliminate $true = all()$ and using RA
+{
+\begin{alltt}\textcolor{blue}{
+select distinct m.pa, m.qa from
+    (select p.a as pa , q.a as qa, r.* from P p, Q q, R r
+    where r.a = p.a
+    
+except 
+
+select p.a as pa, q.a as qa, r.* from P p, Q q, R r, S s
+    where r.a = p.a and s.a = q.a and s.b = r.b) m;}
+\end{alltt}
+}
+
+
+
+eliminate $where$ and using $join$ $ operation$
+{
+\begin{alltt}\textcolor{blue}{
+
+select distinct m.pa, m.qa from
+(select p.a as pa , q.a as qa, r.* from (P p natural join R r) cross join Q q
+except 
+select p.a as pa, q.a as qa, r.* from (R r natural join P p) join (S s natural join Q q) on (s.b = r.b)) m;
+}
+\end{alltt}
+}
+\subsection*{4.}
+Consider the query $Q_5$ 
+{
+\begin{alltt}\textcolor{blue}{
+select p.a
+from   P p
+where  p.a not in (select r.a
+                   from   R r
+                   where  r.b not in (select q.b
+                                      from   Q q));}
+\end{alltt}
+}
+$Q_5$ is translated to RA and optimized.
+{
+\begin{alltt}\textcolor{blue}{
+select p
+from P p
+except
+(
+select distinct p
+from P p natural join (select distinct r.a as a from R r)r
+except
+select distinct p
+from P p natural join (select distinct r.a as a 
+                       from (R r natural join (select distinct q.b as b from Q q)q)r
+                       )r;}
+\end{alltt}
+}
+\subsection*{5.}
+Rewrite $Q_5$
+{
+\begin{alltt}\textcolor{blue}{
+select p.a
+from P p
+where true = all (select p.a != r.a or true = some (select r.b = q.b
+from Q q)
+from R r);}
+\end{alltt}
+}
+The translated and optimized query is identical as  $Q_6$ in question 4.
+\subsection*{6.}
+$Q_7$ is translated to RA and optimized.
+{
+\begin{alltt}\textcolor{blue}{
+select p.a
+from P p
+where not exists (select 1
+from Q q
+where (p.a, q.b) not in (select r.a, r.b
+from R r));
+}
+\end{alltt}
+}
+
+Rewrite $Q_7$ as optimized RA
+{
+\begin{alltt}\textcolor{blue}{
+select p.a
+from P p
+except
+select q1.a
+from
+(
+select p.a, q.b from P p cross join Q q
+except
+select * from R r
+)q1;
+}
+\end{alltt}
+}
+\end{document}

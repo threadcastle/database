@@ -1,0 +1,309 @@
+Problem 1
+ sid  | sname
+------+-------
+ 1006 | Ryan
+ 1009 | Hasan
+(2 rows)
+
+
+Problem 2
+ sid  |  sname
+------+----------
+ 1007 | Danielle
+ 1008 | Emma
+ 1010 | Linda
+ 1018 | Arif
+(4 rows)
+
+
+Problem 3
+ bno  |    title
+------+-------------
+ 2001 | Databases
+ 2002 | AI
+ 2003 | DataScience
+ 2004 | Databases
+ 2005 | Programming
+ 2006 | Complexity
+ 2007 | AI
+ 2008 | Algorithms
+ 2009 | Networks
+ 2010 | AI
+ 2011 | Logic
+(11 rows)
+
+
+Problem 4
+ bno  | sid
+------+------
+ 2001 | 1001
+ 2001 | 1002
+ 2001 | 1006
+ 2001 | 1011
+ 2001 | 1012
+ 2001 | 1015
+ 2002 | 1001
+ 2002 | 1002
+ 2002 | 1006
+ 2002 | 1011
+ 2002 | 1012
+ 2002 | 1015
+ 2003 | 1006
+ 2003 | 1011
+ 2004 | 1006
+ 2004 | 1011
+ 2007 | 1001
+ 2007 | 1002
+ 2007 | 1006
+ 2007 | 1011
+ 2007 | 1012
+ 2007 | 1015
+ 2011 | 1006
+ 2011 | 1011
+(24 rows)
+
+
+Problem 5
+ bno  |   title
+------+------------
+ 2001 | Databases
+ 2002 | AI
+ 2004 | Databases
+ 2006 | Complexity
+ 2008 | Algorithms
+ 2009 | Networks
+ 2010 | AI
+ 2011 | Logic
+(8 rows)
+
+
+Problem 6
+ sid  | bno
+------+------
+ 1020 | 2012
+(1 row)
+
+
+Problem 7
+   major
+-----------
+ English
+ Chemistry
+(2 rows)
+
+
+Problem 8
+    major
+-------------
+ CS
+ DataScience
+ Math
+ Physics
+(4 rows)
+
+
+Problem 9
+CREATE VIEW
+ sid
+------
+ 1003
+ 1008
+ 1020
+(3 rows)
+
+
+Problem 10
+ bag_to_set
+------------
+ {}
+(1 row)
+
+
+Problem 11
+ sid  |  sname
+------+----------
+ 1001 | Jean
+ 1002 | Vidya
+ 1003 | Anna
+ 1004 | Qin
+ 1005 | Megan
+ 1006 | Ryan
+ 1007 | Danielle
+ 1008 | Emma
+ 1009 | Hasan
+ 1010 | Linda
+ 1011 | Nick
+ 1012 | Eric
+ 1013 | Lisa
+ 1014 | Deepa
+ 1015 | Chris
+ 1016 | YinYue
+ 1017 | Latha
+ 1018 | Arif
+ 1019 | John
+ 1020 | Margaret
+(20 rows)
+
+
+Problem 12
+             majors
+---------------------------------
+ {}
+ {Chemistry}
+ {Chemistry,CS}
+ {Chemistry,CS,DataScience}
+ {Chemistry,CS,English}
+ {Chemistry,CS,Math}
+ {Chemistry,CS,Physics}
+ {Chemistry,DataScience}
+ {Chemistry,DataScience,English}
+ {Chemistry,DataScience,Math}
+ {Chemistry,DataScience,Physics}
+ {Chemistry,English}
+ {Chemistry,English,Math}
+ {Chemistry,English,Physics}
+ {Chemistry,Math}
+ {Chemistry,Math,Physics}
+ {Chemistry,Physics}
+ {CS}
+ {CS,DataScience}
+ {CS,DataScience,English}
+ {CS,DataScience,Math}
+ {CS,DataScience,Physics}
+ {CS,English}
+ {CS,English,Math}
+ {CS,English,Physics}
+ {CS,Math}
+ {CS,Math,Physics}
+ {CS,Physics}
+ {DataScience}
+ {DataScience,English}
+ {DataScience,English,Math}
+ {DataScience,English,Physics}
+ {DataScience,Math}
+ {DataScience,Math,Physics}
+ {DataScience,Physics}
+ {English}
+ {English,Math}
+ {English,Math,Physics}
+ {English,Physics}
+ {Math}
+ {Math,Physics}
+ {Physics}
+(42 rows)
+
+
+Problem 13
+CREATE TYPE
+CREATE TYPE
+ count
+-------
+   904
+(1 row)
+
+
+Problem 14
+CREATE FUNCTION
+ count
+-------
+  1140
+(1 row)
+
+
+ count
+-------
+   931
+(1 row)
+
+
+ count
+-------
+   833
+(1 row)
+
+
+psql:D:/22Fall/B561/assignment/b561/hw5/Assignment5Script.sql:769: ERROR:  relation "student" already exists
+psql:D:/22Fall/B561/assignment/b561/hw5/Assignment5Script.sql:776: ERROR:  INSERT has more expressions than target columns
+LINE 2: ('s100', 'Eric'  , 'CS'     , 1988),
+                                      ^
+CREATE TABLE
+INSERT 0 5
+CREATE TABLE
+INSERT 0 14
+problem 15
+CREATE TYPE
+CREATE TYPE
+CREATE TYPE
+CREATE VIEW
+ cno  |                             gradeinfo
+------+-------------------------------------------------------------------
+ c200 | {"(A,\"{(s100)}\")","(B,\"{(s101),(s102)}\")"}
+ c201 | {"(A,\"{(s101),(s103)}\")","(D,\"{(s104)}\")","(B,\"{(s100)}\")"}
+ c202 | {"(A,\"{(s100),(s101),(s102)}\")"}
+ c301 | {"(B,\"{(s102)}\")","(C,\"{(s101)}\")"}
+ c302 | {"(A,\"{(s101),(s102)}\")"}
+(5 rows)
+
+
+problem 16
+Problem 16.a
+ cno  |        students
+------+------------------------
+ c200 | {(s100)}
+ c201 | {(s101),(s103)}
+ c202 | {(s100),(s101),(s102)}
+ c302 | {(s101),(s102)}
+(4 rows)
+
+
+Problem 16.b
+ sid  |            courses
+------+-------------------------------
+ s100 | {(c202),(c201),(c200)}
+ s101 | {(c202),(c201),(c200),(c302)}
+ s102 | {(c301),(c202),(c200),(c302)}
+ s103 | {(c201)}
+(4 rows)
+
+
+Problem 17
+CREATE VIEW
+                                                                                  courseinfo                            
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+ {"cno": "c200", "gradeInfo": [{"sid": [{"sid": "s100"}], "grade": "A"}, {"sid": [{"sid": "s101"}, {"sid": "s102"}], "grade": "B"}]}
+ {"cno": "c201", "gradeInfo": [{"sid": [{"sid": "s101"}, {"sid": "s103"}], "grade": "A"}, {"sid": [{"sid": "s104"}], "grade": "D"}, {"sid": [{"sid": "s100"}], "grade": "B"}]}
+ {"cno": "c202", "gradeInfo": [{"sid": [{"sid": "s100"}, {"sid": "s101"}, {"sid": "s102"}], "grade": "A"}]}
+ {"cno": "c301", "gradeInfo": [{"sid": [{"sid": "s102"}], "grade": "B"}, {"sid": [{"sid": "s101"}], "grade": "C"}]}
+ {"cno": "c302", "gradeInfo": [{"sid": [{"sid": "s101"}, {"sid": "s102"}], "grade": "A"}]}
+(5 rows)
+
+
+Problem 18
+Problem 18.a
+ cno  | sid
+------+------
+ c200 | s100
+ c201 | s101
+ c201 | s103
+ c202 | s100
+ c202 | s101
+ c202 | s102
+ c302 | s101
+ c302 | s102
+(8 rows)
+
+
+Problem 18.b
+   cnopair   |     sid
+-------------+-------------
+ {c200,c201} | {}
+ {c200,c202} | {s100}
+ {c200,c301} | {}
+ {c200,c302} | {}
+ {c201,c202} | {s101}
+ {c201,c301} | {}
+ {c201,c302} | {s101}
+ {c202,c301} | {}
+ {c202,c302} | {s101,s102}
+ {c301,c302} | {}
+(10 rows)

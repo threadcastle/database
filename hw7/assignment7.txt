@@ -1,0 +1,415 @@
+# contains all the output for question 8-14 in assignment 7
+CREATE DATABASE
+Problem 8
+question 8.a
+CREATE TABLE
+CREATE TABLE
+INSERT 0 12
+INSERT 0 11
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+CREATE FUNCTION
+     sometopologicalsort      
+------------------------------
+ {1,4,8,3,7,11,10,2,6,5,9,12}
+(1 row)
+
+DROP TABLE
+DROP TABLE
+DROP TABLE
+DROP TABLE
+DROP TABLE
+Problem 9
+DROP TABLE
+CREATE TABLE
+INSERT 0 14
+CREATE FUNCTION
+CREATE FUNCTION
+ target | weight 
+--------+--------
+      0 |      0
+      1 |      2
+      2 |      9
+      3 |      5
+      4 |      9
+(5 rows)
+
+Problem 10
+DROP TABLE
+DROP TABLE
+CREATE TABLE
+CREATE TABLE
+INSERT 0 11
+INSERT 0 5
+Problem 10.a
+CREATE FUNCTION
+ recursiveaggregatedweight 
+---------------------------
+                       144
+(1 row)
+
+ recursiveaggregatedweight 
+---------------------------
+                        34
+(1 row)
+
+ recursiveaggregatedweight 
+---------------------------
+                        34
+(1 row)
+
+ recursiveaggregatedweight 
+---------------------------
+                         4
+(1 row)
+
+ recursiveaggregatedweight 
+---------------------------
+                        30
+(1 row)
+
+ recursiveaggregatedweight 
+---------------------------
+                         1
+(1 row)
+
+ recursiveaggregatedweight 
+---------------------------
+                        17
+(1 row)
+
+ recursiveaggregatedweight 
+---------------------------
+                         4
+(1 row)
+
+ recursiveaggregatedweight 
+---------------------------
+                        15
+(1 row)
+
+ recursiveaggregatedweight 
+---------------------------
+                         1
+(1 row)
+
+ recursiveaggregatedweight 
+---------------------------
+                         5
+(1 row)
+
+ recursiveaggregatedweight 
+---------------------------
+                         3
+(1 row)
+
+Problem 10.b
+CREATE FUNCTION
+CREATE FUNCTION
+ nonrecursiveaggregatedweight 
+------------------------------
+                          144
+(1 row)
+
+ nonrecursiveaggregatedweight 
+------------------------------
+                           34
+(1 row)
+
+ nonrecursiveaggregatedweight 
+------------------------------
+                           34
+(1 row)
+
+ nonrecursiveaggregatedweight 
+------------------------------
+                            4
+(1 row)
+
+ nonrecursiveaggregatedweight 
+------------------------------
+                           30
+(1 row)
+
+ nonrecursiveaggregatedweight 
+------------------------------
+                            1
+(1 row)
+
+ nonrecursiveaggregatedweight 
+------------------------------
+                           17
+(1 row)
+
+ nonrecursiveaggregatedweight 
+------------------------------
+                            4
+(1 row)
+
+ nonrecursiveaggregatedweight 
+------------------------------
+                           15
+(1 row)
+
+ nonrecursiveaggregatedweight 
+------------------------------
+                            1
+(1 row)
+
+ nonrecursiveaggregatedweight 
+------------------------------
+                            5
+(1 row)
+
+ nonrecursiveaggregatedweight 
+------------------------------
+                            3
+(1 row)
+
+Problem 11
+DROP TABLE
+CREATE TABLE
+INSERT 0 4
+DROP VIEW
+CREATE VIEW
+CREATE FUNCTION
+DROP TABLE
+SELECT 64
+DROP FUNCTION
+CREATE FUNCTION
+  frequentset  
+---------------
+ {}
+ {F}
+ {E}
+ {E,F}
+ {D}
+ {D,F}
+ {D,E}
+ {D,E,F}
+ {C}
+ {C,F}
+ {C,E}
+ {C,E,F}
+ {C,D}
+ {C,D,F}
+ {C,D,E}
+ {C,D,E,F}
+ {B}
+ {B,F}
+ {B,E}
+ {B,E,F}
+ {B,D}
+ {B,D,F}
+ {B,D,E}
+ {B,D,E,F}
+ {B,C}
+ {B,C,F}
+ {B,C,E}
+ {B,C,E,F}
+ {B,C,D}
+ {B,C,D,F}
+ {B,C,D,E}
+ {B,C,D,E,F}
+ {A}
+ {A,F}
+ {A,E}
+ {A,E,F}
+ {A,D}
+ {A,D,F}
+ {A,D,E}
+ {A,D,E,F}
+ {A,C}
+ {A,C,F}
+ {A,C,E}
+ {A,C,E,F}
+ {A,C,D}
+ {A,C,D,F}
+ {A,C,D,E}
+ {A,C,D,E,F}
+ {A,B}
+ {A,B,F}
+ {A,B,E}
+ {A,B,E,F}
+ {A,B,D}
+ {A,B,D,F}
+ {A,B,D,E}
+ {A,B,D,E,F}
+ {A,B,C}
+ {A,B,C,F}
+ {A,B,C,E}
+ {A,B,C,E,F}
+ {A,B,C,D}
+ {A,B,C,D,F}
+ {A,B,C,D,E}
+ {A,B,C,D,E,F}
+(64 rows)
+
+ frequentset 
+-------------
+ {}
+ {F}
+ {E}
+ {E,F}
+ {D}
+ {D,E}
+ {C}
+ {C,F}
+ {C,E}
+ {C,E,F}
+ {C,D}
+ {C,D,E}
+ {B}
+ {B,F}
+ {B,E}
+ {B,E,F}
+ {B,D}
+ {B,D,E}
+ {B,C}
+ {B,C,F}
+ {B,C,E}
+ {B,C,E,F}
+ {B,C,D}
+ {B,C,D,E}
+ {A}
+ {A,F}
+ {A,E}
+ {A,E,F}
+ {A,D}
+ {A,D,E}
+ {A,C}
+ {A,C,F}
+ {A,C,E}
+ {A,C,E,F}
+ {A,C,D}
+ {A,C,D,E}
+ {A,B}
+ {A,B,F}
+ {A,B,E}
+ {A,B,E,F}
+ {A,B,D}
+ {A,B,D,E}
+ {A,B,C}
+ {A,B,C,F}
+ {A,B,C,E}
+ {A,B,C,E,F}
+ {A,B,C,D}
+ {A,B,C,D,E}
+(48 rows)
+
+ frequentset 
+-------------
+ {}
+ {F}
+ {E}
+ {E,F}
+ {C}
+ {C,E}
+ {B}
+ {B,E}
+ {B,C}
+ {B,C,E}
+ {A}
+ {A,F}
+ {A,E}
+ {A,E,F}
+ {A,C}
+ {A,C,E}
+ {A,B}
+ {A,B,E}
+ {A,B,C}
+ {A,B,C,E}
+(20 rows)
+
+ frequentset 
+-------------
+ {}
+ {E}
+ {A}
+ {A,E}
+(4 rows)
+
+ frequentset 
+-------------
+ {}
+ {E}
+ {A}
+ {A,E}
+(4 rows)
+
+ frequentset 
+-------------
+(0 rows)
+
+Problem 12
+Problem 12.a
+DROP TABLE
+CREATE TABLE
+INSERT 0 1
+CREATE FUNCTION
+CREATE FUNCTION
+DROP TABLE
+CREATE TABLE
+DELETE 0
+INSERT 0 4
+ recursivehamiltonian 
+----------------------
+ t
+(1 row)
+
+DELETE 4
+INSERT 0 5
+ recursivehamiltonian 
+----------------------
+ f
+(1 row)
+
+Problem 12.b
+CREATE FUNCTION
+CREATE FUNCTION
+DELETE 5
+INSERT 0 4
+ nonrecursivehamiltonian 
+-------------------------
+ t
+(1 row)
+
+DELETE 4
+INSERT 0 5
+ nonrecursivehamiltonian 
+-------------------------
+ f
+(1 row)
+
+DELETE 5
+INSERT 0 10
+DELETE 10
+INSERT 0 9
+Problem 13
+DROP TABLE
+CREATE TABLE
+INSERT 0 1
+CREATE FUNCTION
+CREATE FUNCTION
+DELETE 9
+INSERT 0 5
+DELETE 5
+INSERT 0 5
+ threecolorable 
+----------------
+ t
+(1 row)
+
+DELETE 4
+DELETE 5
+INSERT 0 12
+ threecolorable 
+----------------
+ f
+(1 row)
+
+Problem 14
+CREATE TABLE
+INSERT 0 84
+DROP DATABASE
